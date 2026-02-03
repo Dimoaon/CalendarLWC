@@ -5,18 +5,17 @@
             month-label={monthLabel}
             show-event-form={showEventForm}
             new-event-title={newEventTitle}
+            search-results={searchResults}
             onprevmonth={handlePrevMonth}
             onnextmonth={handleNextMonth}
             onaddevent={handleAddEventClick}
             oncloseform={closeEventForm}
             ontitleinput={handleTitleInput}
             onsaveevent={saveNewEvent}
-            onsearch={handleSearchInput}>
-            search-results={searchResults}
-            show-search-results={showSearchResults}
             onsearch={handleSearchInput}
             onsearchselect={handleSearchSelect}>
         </c-calendar-header>
+
 
         <c-calendar-grid
             cells={cells}
@@ -24,34 +23,13 @@
             oneventclick={handleEventClick}>
         </c-calendar-grid>
 
-        <c-event-details-popup
-            event={selectedEvent}
-            onclose={closeEventDetails}
-            ondeleteevent={handleDeleteEvent}>
-        </c-event-details-popup>
-
-<!-- Временно -->
-        <template if:true={showSearchResults}>
-            <div class="calendar__search-results">
-
-                <template for:each={searchResults}
-                        for:item="ev">
-
-                    <div key={ev.id}
-                        class="calendar__search-item"
-                        data-date={ev.dateKey}
-                        onclick={handleSearchSelect}>
-
-                        <div>{ev.title}</div>
-                        <div>{ev.dateKey}</div>
-
-                    </div>
-
-                </template>
-
-            </div>
+        <template if:true={showEventDetails}>
+            <c-event-details-popup
+                event={selectedEvent}
+                onclose={closeEventDetails}
+                ondeleteevent={handleDeleteEvent}>
+            </c-event-details-popup>
         </template>
-<!-- конец -->
 
     </div>
 </template>

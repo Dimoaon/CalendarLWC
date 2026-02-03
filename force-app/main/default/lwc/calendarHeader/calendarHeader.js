@@ -5,8 +5,7 @@ export default class CalendarHeader extends LightningElement {
     @api monthLabel;
     @api showEventForm;
     @api newEventTitle;
-    @api searchResults;
-    @api showSearchResults;
+    @api searchResults = [];
 
     handlePrev() {
         this.dispatchEvent(new CustomEvent('prevmonth'));
@@ -37,16 +36,6 @@ export default class CalendarHeader extends LightningElement {
     }
 
     handleSearchInputLocal(e) {
-        console.log('HEADER INPUT');
-
-        this.dispatchEvent(
-            new CustomEvent('search', {
-                detail: e.target.value
-            })
-        );
-    }
-
-    handleSearchInputLocal(e) {
         this.dispatchEvent(
             new CustomEvent('search', {
                 detail: e.target.value
@@ -57,8 +46,16 @@ export default class CalendarHeader extends LightningElement {
     handleResultClick(e) {
         this.dispatchEvent(
             new CustomEvent('searchselect', {
-                detail: e.currentTarget.dataset.date
+                detail: {
+                    dateKey: e.currentTarget.dataset.date
+                },
+                bubbles: true,
+                composed: true
             })
         );
+    }
+
+    get hasSearchResults() {
+        return this.searchResults.length > 0;
     }
 }

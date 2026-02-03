@@ -10,11 +10,8 @@ export default class Calendar extends LightningElement {
     selectedDateKey = null;
     showEventDetails = false;
     selectedEvent = null;
-    popupRect = null;
 
-    searchQuery = '';
     searchResults = [];
-    showSearchResults = false;
 
 
 
@@ -177,7 +174,6 @@ export default class Calendar extends LightningElement {
 
     handleEventClick(e) {
         this.selectedEvent = e.detail.event;
-        this.popupRect = e.detail.rect;
         this.showEventDetails = true;
     }
 
@@ -185,43 +181,11 @@ export default class Calendar extends LightningElement {
         this.showEventDetails = false;
     }
 
-    // handleSearchInput(e) {
-    //     console.log('SEARCH:', e.detail);
-
-    //     const query = e.detail.toLowerCase();
-    //     this.searchQuery = query;
-
-    //     if (!query) {
-    //         this.searchResults = [];
-    //         this.showSearchResults = false;
-    //         return;
-    //     }
-
-    //     const results = [];
-
-    //     Object.entries(this.events).forEach(([dateKey, events]) => {
-    //         events.forEach(ev => {
-    //             if (ev.title.toLowerCase().includes(query)) {
-    //                 results.push({
-    //                     ...ev,
-    //                     dateKey
-    //                 });
-    //             }
-    //         });
-    //     });
-
-    //     this.searchResults = results;
-    //     this.showSearchResults = results.length > 0;
-    // }
-
-
-    // Временно
     handleSearchInput(e) {
         const query = e.detail.toLowerCase();
 
         if (!query) {
             this.searchResults = [];
-            this.showSearchResults = false;
             return;
         }
 
@@ -239,12 +203,11 @@ export default class Calendar extends LightningElement {
         });
 
         this.searchResults = results;
-        this.showSearchResults = results.length > 0;
     }
-    // Конец
+
 
     handleSearchSelect(e) {
-        const dateKey = e.currentTarget.dataset.date;
+        const { dateKey } = e.detail;
 
         const [year, month, day] =
             dateKey.split('-').map(Number);
@@ -252,8 +215,9 @@ export default class Calendar extends LightningElement {
         this.currentDate = new Date(year, month - 1, 1);
         this.selectedDateKey = dateKey;
 
-        this.showSearchResults = false;
+        this.searchResults = [];
     }
+
 
     handleDeleteEvent(e) {
         const eventId = e.detail;
@@ -272,7 +236,6 @@ export default class Calendar extends LightningElement {
         this.events = { ...this.events };
 
         this.saveEvents();
-        this.closeEventDetails();
         this.selectedEvent = null;
         this.closeEventDetails();
     }
