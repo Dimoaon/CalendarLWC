@@ -4,8 +4,6 @@ export default class CalendarHeader extends LightningElement {
 
     @api monthLabel;
     @api searchResults = [];
-    @api showEventForm;
-    @api newEventTitle;
 
     showDatePicker = false;
     baseYear = new Date().getFullYear();
@@ -40,21 +38,15 @@ export default class CalendarHeader extends LightningElement {
     }
 
     selectMonth(e) {
-        const month = Number(e.currentTarget.dataset.month);
         this.dispatchEvent(new CustomEvent('monthchange', {
-            detail: { month },
-            bubbles: true,
-            composed: true
+            detail: { month: Number(e.currentTarget.dataset.month) }
         }));
         this.showDatePicker = false;
     }
 
     selectYear(e) {
-        const year = Number(e.currentTarget.dataset.year);
         this.dispatchEvent(new CustomEvent('yearchange', {
-            detail: { year },
-            bubbles: true,
-            composed: true
+            detail: { year: Number(e.currentTarget.dataset.year) }
         }));
         this.showDatePicker = false;
     }
@@ -67,23 +59,9 @@ export default class CalendarHeader extends LightningElement {
         this.baseYear++;
     }
 
-    /* ACTIONS */
+    /* ADD EVENT (QUICK) */
     handleAdd() {
         this.dispatchEvent(new CustomEvent('addevent'));
-    }
-
-    handleClose() {
-        this.dispatchEvent(new CustomEvent('closeform'));
-    }
-
-    handleInput(e) {
-        this.dispatchEvent(new CustomEvent('titleinput', {
-            detail: e.detail
-        }));
-    }
-
-    handleSave() {
-        this.dispatchEvent(new CustomEvent('saveevent'));
     }
 
     /* SEARCH */
@@ -95,9 +73,7 @@ export default class CalendarHeader extends LightningElement {
 
     handleResultClick(e) {
         this.dispatchEvent(new CustomEvent('searchselect', {
-            detail: { dateKey: e.currentTarget.dataset.date },
-            bubbles: true,
-            composed: true
+            detail: { dateKey: e.currentTarget.dataset.date }
         }));
     }
 }

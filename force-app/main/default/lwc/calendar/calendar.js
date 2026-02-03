@@ -5,13 +5,13 @@ export default class Calendar extends LightningElement {
     currentDate = new Date();
     events = {};
 
-    showEventForm = false;
     newEventTitle = '';
     selectedDateKey = null;
-    showEventDetails = false;
     selectedEvent = null;
 
+    popupMode = null; // 'addQuick' | 'addFull' | 'list' | 'details'
     searchResults = [];
+    
 
 
 
@@ -25,7 +25,12 @@ export default class Calendar extends LightningElement {
         if (stored) {
             this.events = JSON.parse(stored);
         }
+
+        const d = new Date();
+        this.selectedDateKey =
+            `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
     }
+
 
     saveEvents() {
         localStorage.setItem(
@@ -128,23 +133,25 @@ export default class Calendar extends LightningElement {
     }
 
     handleAddEventClick() {
-        this.showEventForm = true;
-
-        if (!this.selectedDateKey) {
-            const d = new Date();
-            this.selectedDateKey =
-                `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
-        }
+        this.popupMode = 'addQuick';
+        this.newEventTitle = '';
+        this.selectedEvent = null;
     }
 
+    openAddFromList() {
+        this.popupMode = 'addFull';
+        this.newEventTitle = '';
+    }
+
+
+    closePopup() {
+        this.popupMode = null;
+        this.selectedEvent = null;
+        this.newEventTitle = '';
+    }
 
     handleTitleInput(e) {
         this.newEventTitle = e.detail;
-    }
-
-    closeEventForm() {
-        this.showEventForm = false;
-        this.newEventTitle = '';
     }
 
     saveNewEvent() {
@@ -163,23 +170,39 @@ export default class Calendar extends LightningElement {
         this.events[this.selectedDateKey].push(newEvent);
 
         this.events = { ...this.events };
-
         this.saveEvents();
-        this.closeEventForm();
+
+        this.popupMode = null;
+        this.newEventTitle = '';
+        this.selectedEvent = null;
     }
+
+
+    handleEventSelect(e) {
+        this.selectedEvent = e.detail;
+        this.popupMode = 'details';
+    }
+
 
     handleCellSelect(e) {
-        this.selectedDateKey = e.detail;
+        const { dateKey, events } = e.detail;
+
+        this.selectedDateKey = dateKey;
+        this.selectedEvent = null;
+
+        if (this.popupMode === 'addQuick') {
+            return;
+        }
+
+        if (!events || events.length === 0) {
+            this.popupMode = 'addFull';
+            this.newEventTitle = '';
+        } else {
+            this.popupMode = 'list';
+        }
     }
 
-    handleEventClick(e) {
-        this.selectedEvent = e.detail.event;
-        this.showEventDetails = true;
-    }
 
-    closeEventDetails() {
-        this.showEventDetails = false;
-    }
 
     handleSearchInput(e) {
         const query = e.detail.toLowerCase();
@@ -224,9 +247,7 @@ export default class Calendar extends LightningElement {
 
         Object.keys(this.events).forEach(dateKey => {
             this.events[dateKey] =
-                this.events[dateKey].filter(
-                    ev => ev.id !== eventId
-                );
+                this.events[dateKey].filter(ev => ev.id !== eventId);
 
             if (this.events[dateKey].length === 0) {
                 delete this.events[dateKey];
@@ -234,11 +255,17 @@ export default class Calendar extends LightningElement {
         });
 
         this.events = { ...this.events };
-
         this.saveEvents();
+
+        if (this.eventsForSelectedDate.length > 0) {
+            this.popupMode = 'list';
+        } else {
+            this.popupMode = null;
+        }
+
         this.selectedEvent = null;
-        this.closeEventDetails();
     }
+
 
     handleMonthChange(e) {
         const d = new Date(this.currentDate);
@@ -250,6 +277,27 @@ export default class Calendar extends LightningElement {
         const d = new Date(this.currentDate);
         d.setFullYear(e.detail.year);
         this.currentDate = d;
+    }
+
+    get isAddQuickMode() {
+        return this.popupMode === 'addQuick';
+    }
+
+    get isAddFullMode() {
+        return this.popupMode === 'addFull';
+    }
+
+    get isListMode() {
+        return this.popupMode === 'list';
+    }
+
+    get isDetailsMode() {
+        return this.popupMode === 'details';
+    }
+
+
+    get eventsForSelectedDate() {
+        return this.events[this.selectedDateKey] || [];
     }
 
 }

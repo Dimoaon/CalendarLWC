@@ -1,15 +1,74 @@
 <template>
-    <template if:true={event}>
+    <div class="event-popup__overlay">
         <div class="event-popup">
 
-            <button onclick={close}>X</button>
+            <!-- HEADER -->
+            <div class="event-popup__header">
+                <div class="event-popup__title">
+                    <template if:true={isListMode}>
+                        Events
+                    </template>
+                    <template if:true={isDetailsMode}>
+                        Event details
+                    </template>
+                </div>
 
-            <div>{event.title}</div>
+                <button class="event-popup__close"
+                        onclick={close}>
+                    ✕
+                </button>
+            </div>
 
-            <button onclick={handleDelete}>
-                Delete
-            </button>
+            <!-- LIST MODE -->
+            <template if:true={isListMode}>
+                <div class="event-popup__content">
+
+                    <template if:true={hasEvents}>
+                        <ul class="event-list">
+                            <template for:each={events}
+                                      for:item="ev">
+                                <li key={ev.id}
+                                    class="event-list__item"
+                                    data-id={ev.id}
+                                    onclick={handleSelect}>
+                                    {ev.title}
+                                </li>
+                            </template>
+                        </ul>
+                    </template>
+
+                    <template if:false={hasEvents}>
+                        <div class="event-popup__empty">
+                            No events for this day
+                        </div>
+                    </template>
+
+                </div>
+
+                <div class="event-popup__footer">
+                    <button class="btn btn--secondary"
+                            onclick={handleAdd}>
+                        Add event
+                    </button>
+                </div>
+            </template>
+
+            <!-- DETAILS MODE -->
+            <template if:true={isDetailsMode}>
+                <div class="event-popup__content">
+                    <div class="event-details__title">
+                        {event.title}
+                    </div>
+                </div>
+
+                <div class="event-popup__footer">
+                    <button class="btn btn--danger"
+                            onclick={handleDelete}>
+                        Delete
+                    </button>
+                </div>
+            </template>
 
         </div>
-    </template>
+    </div>
 </template>

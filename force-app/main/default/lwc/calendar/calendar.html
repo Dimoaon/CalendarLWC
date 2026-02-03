@@ -4,32 +4,58 @@
         <c-calendar-header
             month-label={monthLabel}
             search-results={searchResults}
-            show-event-form={showEventForm}
-            new-event-title={newEventTitle}
             onprevmonth={handlePrevMonth}
             onnextmonth={handleNextMonth}
             onmonthchange={handleMonthChange}
             onyearchange={handleYearChange}
             onaddevent={handleAddEventClick}
-            oncloseform={closeEventForm}
-            ontitleinput={handleTitleInput}
-            onsaveevent={saveNewEvent}
             onsearch={handleSearchInput}
             onsearchselect={handleSearchSelect}>
         </c-calendar-header>
 
-
-
         <c-calendar-grid
             cells={cells}
-            oncellclick={handleCellSelect}
-            oneventclick={handleEventClick}>
+            oncellclick={handleCellSelect}>
         </c-calendar-grid>
 
-        <template if:true={showEventDetails}>
+        <!-- QUICK ADD (header) -->
+        <template if:true={isAddQuickMode}>
+            <c-event-form-popup
+                mode="quick"
+                new-event-title={newEventTitle}
+                onclose={closePopup}
+                ontitleinput={handleTitleInput}
+                onsave={saveNewEvent}>
+            </c-event-form-popup>
+        </template>
+
+        <!-- FULL ADD (empty cell / from list) -->
+        <template if:true={isAddFullMode}>
+            <c-event-form-popup
+                mode="full"
+                new-event-title={newEventTitle}
+                onclose={closePopup}
+                ontitleinput={handleTitleInput}
+                onsave={saveNewEvent}>
+            </c-event-form-popup>
+        </template>
+
+
+        <template if:true={isListMode}>
             <c-event-details-popup
+                mode="list"
+                events={eventsForSelectedDate}
+                onselectevent={handleEventSelect}
+                onaddevent={openAddFromList}
+                onclose={closePopup}>
+            </c-event-details-popup>
+        </template>
+
+        <template if:true={isDetailsMode}>
+            <c-event-details-popup
+                mode="details"
                 event={selectedEvent}
-                onclose={closeEventDetails}
+                onclose={closePopup}
                 ondeleteevent={handleDeleteEvent}>
             </c-event-details-popup>
         </template>

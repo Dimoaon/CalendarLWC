@@ -1,16 +1,103 @@
-.event-popup {
+.event-popup__overlay {
     position: fixed;
-    top: 150px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    background: white;
-    border: 1px solid #d0d0d0;
-    border-radius: 6px;
-    padding: 16px;
-
-    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 1000;
+}
 
-    min-width: 200px;
+.event-popup {
+    background: #fff;
+    width: 320px;
+    border-radius: 10px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.event-popup__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.event-popup__title {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.event-popup__close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.event-popup__content {
+    padding: 16px;
+}
+
+.event-popup__footer {
+    padding: 12px 16px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.event-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.event-list__item {
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.event-list__item:hover {
+    background: #f3f4f6;
+}
+
+.event-popup__empty {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.event-details__title {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* buttons */
+
+.btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    border: none;
+}
+
+.btn--secondary {
+    background: #0c41ff;
+    color: white;
+}
+
+.btn--secondary:hover {
+    background: #0a36d6;
+}
+
+.btn--danger {
+    background: #ef4444;
+    color: white;
+}
+
+.btn--danger:hover {
+    background: #dc2626;
 }

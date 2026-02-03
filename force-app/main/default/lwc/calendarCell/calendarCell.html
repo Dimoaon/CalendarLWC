@@ -16,9 +16,7 @@
             <template for:each={cell.events}
                       for:item="event">
                 <div key={event.id}
-                    class="calendar__event"
-                    data-id={event.id}
-                    onclick={handleEventClick}>
+                     class="calendar__event">
                     <span>{event.title}</span>
                 </div>
             </template>

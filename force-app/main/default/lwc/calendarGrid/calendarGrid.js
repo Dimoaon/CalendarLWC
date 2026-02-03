@@ -10,12 +10,4 @@ export default class CalendarGrid extends LightningElement {
             })
         );
     }
-
-    handleEventClick(e) {
-        this.dispatchEvent(
-            new CustomEvent('eventclick', {
-                detail: e.detail
-            })
-        );
-    }
 }

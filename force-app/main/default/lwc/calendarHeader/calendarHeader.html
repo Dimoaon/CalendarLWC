@@ -1,30 +1,34 @@
 <template>
     <div class="calendar__header">
 
+        <!-- NAVIGATION -->
         <div class="calendar__nav">
-            <button onclick={handlePrev}
-                    class="calendar__nav-btn calendar__nav-btn--rotate">
+            <button
+                class="calendar__nav-btn calendar__nav-btn--rotate"
+                onclick={handlePrev}>
                 <c-icon name="arrow"
                         class="calendar__month-switcher"></c-icon>
             </button>
 
             <div class="calendar__title-wrapper">
-
-                <button class="calendar__title"
-                        onclick={toggleDatePicker}>
+                <button
+                    class="calendar__title"
+                    onclick={toggleDatePicker}>
                     {monthLabel}
                 </button>
 
+                <!-- DATE PICKER -->
                 <template if:true={showDatePicker}>
                     <div class="calendar__date-picker">
 
                         <!-- MONTHS -->
                         <div class="month-grid">
                             <template for:each={months} for:item="m">
-                                <button key={m.index}
-                                        data-month={m.index}
-                                        class="month-btn"
-                                        onclick={selectMonth}>
+                                <button
+                                    key={m.index}
+                                    class="month-btn"
+                                    data-month={m.index}
+                                    onclick={selectMonth}>
                                     {m.label}
                                 </button>
                             </template>
@@ -36,10 +40,11 @@
 
                             <div class="year-list">
                                 <template for:each={years} for:item="y">
-                                    <div key={y}
-                                         data-year={y}
-                                         class="year-item"
-                                         onclick={selectYear}>
+                                    <div
+                                        key={y}
+                                        class="year-item"
+                                        data-year={y}
+                                        onclick={selectYear}>
                                         {y}
                                     </div>
                                 </template>
@@ -50,36 +55,29 @@
 
                     </div>
                 </template>
-
             </div>
 
-            <button onclick={handleNext}
-                    class="calendar__nav-btn">
+            <button
+                class="calendar__nav-btn"
+                onclick={handleNext}>
                 <c-icon name="arrow"
                         class="calendar__month-switcher"></c-icon>
             </button>
         </div>
 
+        <!-- ACTIONS -->
         <div class="calendar__actions">
 
-            <button class="calendar__add"
-                    onclick={handleAdd}>
-                <span class="calendar__text">
-                    Add event
-                </span>
+            <!-- ADD EVENT (QUICK) -->
+            <button
+                class="calendar__add"
+                onclick={handleAdd}>
+                <span class="calendar__text">Add event</span>
                 <c-icon name="plus"
                         class="calendar__plus-icon"></c-icon>
             </button>
 
-            <template if:true={showEventForm}>
-                <c-event-form-popup
-                    new-event-title={newEventTitle}
-                    onclose={handleClose}
-                    ontitleinput={handleInput}
-                    onsave={handleSave}>
-                </c-event-form-popup>
-            </template>
-
+            <!-- SEARCH -->
             <div class="calendar__search-wrapper">
                 <c-icon name="search"
                         class="calendar__search-icon"></c-icon>
@@ -91,26 +89,21 @@
                 />
             </div>
 
+            <!-- SEARCH RESULTS -->
             <template if:true={hasSearchResults}>
                 <div class="calendar__search-results">
-
-                    <template for:each={searchResults}
-                            for:item="ev">
-
-                        <div key={ev.id}
+                    <template for:each={searchResults} for:item="ev">
+                        <div
+                            key={ev.id}
                             class="calendar__search-item"
                             data-date={ev.dateKey}
                             onclick={handleResultClick}>
-
                             <div>{ev.title}</div>
                             <div class="calendar__search-date">
                                 {ev.dateKey}
                             </div>
-
                         </div>
-
                     </template>
-
                 </div>
             </template>
 

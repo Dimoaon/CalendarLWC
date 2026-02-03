@@ -2,21 +2,40 @@ import { LightningElement, api } from 'lwc';
 
 export default class EventDetailsPopup extends LightningElement {
 
+    @api mode;   // 'list' | 'details'
+    @api events = [];
     @api event;
-    @api rect;
 
-    get style() {
-        if (!this.rect) return '';
+    get isListMode() {
+        return this.mode === 'list';
+    }
 
-        return `
-            position: fixed;
-            top: ${this.rect.top + 40}px;
-            left: ${this.rect.left}px;
-        `;
+    get isDetailsMode() {
+        return this.mode === 'details';
+    }
+
+    get hasEvents() {
+        return this.events && this.events.length > 0;
     }
 
     close() {
         this.dispatchEvent(new CustomEvent('close'));
+    }
+
+    handleAdd() {
+        this.dispatchEvent(new CustomEvent('addevent'));
+    }
+
+    handleSelect(e) {
+        const id = Number(e.currentTarget.dataset.id);
+        const selected =
+            this.events.find(ev => ev.id === id);
+
+        this.dispatchEvent(
+            new CustomEvent('selectevent', {
+                detail: selected
+            })
+        );
     }
 
     handleDelete() {
@@ -26,5 +45,4 @@ export default class EventDetailsPopup extends LightningElement {
             })
         );
     }
-
 }
