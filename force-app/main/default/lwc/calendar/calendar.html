@@ -3,11 +3,13 @@
 
         <c-calendar-header
             month-label={monthLabel}
+            search-results={searchResults}
             show-event-form={showEventForm}
             new-event-title={newEventTitle}
-            search-results={searchResults}
             onprevmonth={handlePrevMonth}
             onnextmonth={handleNextMonth}
+            onmonthchange={handleMonthChange}
+            onyearchange={handleYearChange}
             onaddevent={handleAddEventClick}
             oncloseform={closeEventForm}
             ontitleinput={handleTitleInput}
@@ -15,6 +17,7 @@
             onsearch={handleSearchInput}
             onsearchselect={handleSearchSelect}>
         </c-calendar-header>
+
 
 
         <c-calendar-grid

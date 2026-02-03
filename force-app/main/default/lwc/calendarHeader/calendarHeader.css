@@ -37,13 +37,91 @@
     color: #001020;
 }
 
+.calendar__title-wrapper {
+    position: relative;
+}
+
 .calendar__title {
     font-family: Inter;
+    background: none;
+    border: none;
     color: #0C41FF;
     font-weight: 500;
     font-size: 30px;
     line-height: 1;
+    cursor: pointer;
 }
+
+.calendar__title:hover {
+    color: #2563eb;
+}
+
+.calendar__date-picker {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    padding: 16px;
+    z-index: 1000;
+    min-width: 260px;
+}
+
+.month-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.month-btn {
+    background: none;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.month-btn:hover {
+    background: #e5f0ff;
+}
+
+.year-picker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 10px;
+}
+
+.year-picker button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px 6px;
+}
+
+.year-list {
+    flex: 1;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+.year-item {
+    padding: 4px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.year-item:hover {
+    background: #e5f0ff;
+}
+
 
 .calendar__actions {
     position: relative;

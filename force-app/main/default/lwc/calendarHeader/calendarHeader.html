@@ -8,8 +8,49 @@
                         class="calendar__month-switcher"></c-icon>
             </button>
 
-            <div class="calendar__title">
-                {monthLabel}
+            <div class="calendar__title-wrapper">
+
+                <button class="calendar__title"
+                        onclick={toggleDatePicker}>
+                    {monthLabel}
+                </button>
+
+                <template if:true={showDatePicker}>
+                    <div class="calendar__date-picker">
+
+                        <!-- MONTHS -->
+                        <div class="month-grid">
+                            <template for:each={months} for:item="m">
+                                <button key={m.index}
+                                        data-month={m.index}
+                                        class="month-btn"
+                                        onclick={selectMonth}>
+                                    {m.label}
+                                </button>
+                            </template>
+                        </div>
+
+                        <!-- YEARS -->
+                        <div class="year-picker">
+                            <button onclick={prevYear}>‹</button>
+
+                            <div class="year-list">
+                                <template for:each={years} for:item="y">
+                                    <div key={y}
+                                         data-year={y}
+                                         class="year-item"
+                                         onclick={selectYear}>
+                                        {y}
+                                    </div>
+                                </template>
+                            </div>
+
+                            <button onclick={nextYear}>›</button>
+                        </div>
+
+                    </div>
+                </template>
+
             </div>
 
             <button onclick={handleNext}

@@ -240,4 +240,16 @@ export default class Calendar extends LightningElement {
         this.closeEventDetails();
     }
 
+    handleMonthChange(e) {
+        const d = new Date(this.currentDate);
+        d.setMonth(e.detail.month);
+        this.currentDate = d;
+    }
+
+    handleYearChange(e) {
+        const d = new Date(this.currentDate);
+        d.setFullYear(e.detail.year);
+        this.currentDate = d;
+    }
+
 }
