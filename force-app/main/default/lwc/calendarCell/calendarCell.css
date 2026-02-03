@@ -1,0 +1,29 @@
+.calendar__cell {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background: #FFFFFF;
+    min-height: 120px;
+    padding: 8px 0 0 8px;
+    font-family: Inter;
+    font-weight: 400;
+    color: #717171;
+    font-size: 14px;
+    line-height: 1;
+    border-right: 1px solid #DADCE0;
+    border-bottom: 1px solid #DADCE0;
+}
+
+.calendar__cell--selected {
+    outline: 2px solid #0C41FF;
+    outline-offset: -2px;
+}
+
+.calendar__cell--today {
+    background: #eef3ff;
+}
+
+.calendar__cell--today .calendar__cell-label {
+    font-weight: 700;
+    color: #0C41FF;
+}

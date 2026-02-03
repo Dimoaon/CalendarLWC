@@ -1,0 +1,24 @@
+<template>
+    <div class="calendar__event-popup">
+
+        <div class="calendar__popup-arrow"></div>
+
+        <button class="calendar__popup-close"
+                onclick={close}>
+            <c-icon name="close"></c-icon>
+        </button>
+
+        <input
+            class="calendar__popup-input"
+            value={newEventTitle}
+            oninput={handleInput}
+            placeholder="March 30, New Event"
+        />
+
+        <button class="calendar__popup-add"
+                onclick={save}>
+            Add event
+        </button>
+
+    </div>
+</template>

@@ -1,0 +1,9 @@
+.calendar {
+    display: flex;
+    flex-direction: column;
+    background: #FFFFFF;
+    width: 100%;
+    max-width: 1443px;
+    border-radius: 6px;
+    border: 1px solid #9D9E9F99;
+}

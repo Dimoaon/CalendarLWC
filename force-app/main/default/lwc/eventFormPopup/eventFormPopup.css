@@ -1,0 +1,52 @@
+.calendar__event-popup {
+    position: absolute;
+    top: 42px;
+    left: 0;
+    width: 260px;
+    background: white;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    z-index: 10;
+}
+
+.calendar__popup-arrow {
+    position: absolute;
+    top: -6px;
+    left: 40px;
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-left: 1px solid #d0d0d0;
+    border-top: 1px solid #d0d0d0;
+    transform: rotate(45deg);
+}
+
+.calendar__popup-close {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.calendar__popup-input {
+    border: 1px solid #d0d0d0;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.calendar__popup-add {
+    background: #0C41FF;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}

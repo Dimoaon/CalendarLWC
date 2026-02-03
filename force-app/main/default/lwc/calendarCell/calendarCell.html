@@ -1,0 +1,28 @@
+<template>
+    <div class={cell.cellClass}
+         onclick={handleClick}>
+
+        <template if:true={cell.weekday}>
+            <div class="calendar__cell-weekday">
+                {cell.weekday},&nbsp;
+            </div>
+        </template>
+
+        <div class="calendar__cell-label">
+            {cell.label}
+        </div>
+
+        <div class="calendar__cell-events">
+            <template for:each={cell.events}
+                      for:item="event">
+                <div key={event.id}
+                    class="calendar__event"
+                    data-id={event.id}
+                    onclick={handleEventClick}>
+                    <span>{event.title}</span>
+                </div>
+            </template>
+        </div>
+
+    </div>
+</template>

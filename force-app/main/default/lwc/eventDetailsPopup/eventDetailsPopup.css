@@ -1,0 +1,16 @@
+.event-popup {
+    position: fixed;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: white;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    padding: 16px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    z-index: 1000;
+
+    min-width: 200px;
+}

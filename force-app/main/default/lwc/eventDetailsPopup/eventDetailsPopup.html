@@ -1,0 +1,15 @@
+<template>
+    <template if:true={event}>
+        <div class="event-popup">
+
+            <button onclick={close}>X</button>
+
+            <div>{event.title}</div>
+
+            <button onclick={handleDelete}>
+                Delete
+            </button>
+
+        </div>
+    </template>
+</template>

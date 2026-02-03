@@ -1,0 +1,78 @@
+<template>
+    <div class="calendar__header">
+
+        <div class="calendar__nav">
+            <button onclick={handlePrev}
+                    class="calendar__nav-btn calendar__nav-btn--rotate">
+                <c-icon name="arrow"
+                        class="calendar__month-switcher"></c-icon>
+            </button>
+
+            <div class="calendar__title">
+                {monthLabel}
+            </div>
+
+            <button onclick={handleNext}
+                    class="calendar__nav-btn">
+                <c-icon name="arrow"
+                        class="calendar__month-switcher"></c-icon>
+            </button>
+        </div>
+
+        <div class="calendar__actions">
+
+            <button class="calendar__add"
+                    onclick={handleAdd}>
+                <span class="calendar__text">
+                    Add event
+                </span>
+                <c-icon name="plus"
+                        class="calendar__plus-icon"></c-icon>
+            </button>
+
+            <template if:true={showEventForm}>
+                <c-event-form-popup
+                    new-event-title={newEventTitle}
+                    onclose={handleClose}
+                    ontitleinput={handleInput}
+                    onsave={handleSave}>
+                </c-event-form-popup>
+            </template>
+
+            <div class="calendar__search-wrapper">
+                <c-icon name="search"
+                        class="calendar__search-icon"></c-icon>
+
+                <input
+                    class="calendar__search"
+                    placeholder="Search"
+                    oninput={handleSearchInputLocal}
+                />
+            </div>
+
+            <template if:true={showSearchResults}>
+                <div class="calendar__search-results">
+
+                    <template for:each={searchResults}
+                            for:item="ev">
+
+                        <div key={ev.id}
+                            class="calendar__search-item"
+                            data-date={ev.dateKey}
+                            onclick={handleResultClick}>
+
+                            <div>{ev.title}</div>
+                            <div class="calendar__search-date">
+                                {ev.dateKey}
+                            </div>
+
+                        </div>
+
+                    </template>
+
+                </div>
+            </template>
+
+        </div>
+    </div>
+</template>
