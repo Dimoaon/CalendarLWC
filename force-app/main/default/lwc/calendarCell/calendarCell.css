@@ -1,29 +1,65 @@
 .calendar__cell {
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
-    justify-content: flex-start;
     background: #FFFFFF;
     min-height: 120px;
-    padding: 8px 0 0 8px;
+    padding: 8px;
     font-family: Inter;
     font-weight: 400;
-    color: #717171;
     font-size: 14px;
     line-height: 1;
     border-right: 1px solid #DADCE0;
     border-bottom: 1px solid #DADCE0;
 }
 
+/* DATE */
+.calendar__cell-date {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #717171;
+}
+
+/* EVENTS */
+.calendar__cell-events {
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 100%;
+}
+
+.calendar__event {
+    text-align: left;
+}
+
+/* ACTIVE */
+.calendar__cell--active {
+    background: #BDFFDB;
+    border: 1px solid #8FDCB2;
+}
+
+.calendar__cell--active .calendar__event {
+    color: #2C5A41;
+}
+
+/* SELECTED */
 .calendar__cell--selected {
     outline: 2px solid #0C41FF;
     outline-offset: -2px;
 }
 
+/* TODAY */
 .calendar__cell--today {
-    background: #eef3ff;
+    background: #F0F0F0;
+    font-weight: 700;
 }
 
-.calendar__cell--today .calendar__cell-label {
-    font-weight: 700;
-    color: #0C41FF;
+.calendar__cell--today .calendar__cell-date,
+.calendar__cell--today .calendar__event {
+    color: #333333;
+}
+
+/* TODAY + ACTIVE */
+.calendar__cell--today.calendar__cell--active {
+    background: #F0F0F0;
 }
