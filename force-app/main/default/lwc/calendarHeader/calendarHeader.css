@@ -67,6 +67,8 @@
     padding: 16px;
     z-index: 1000;
     min-width: 260px;
+    border: 1px solid #CCCCCC;
+    box-shadow: 0px 2px 3px 0px #00000033;
 }
 
 .month-grid {
@@ -227,4 +229,69 @@
 .calendar__search-date {
     font-size: 11px;
     color: #777;
+}
+
+.calendar__picker-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.calendar__picker-arrow {
+    width: 16px;
+    height: 16px;
+    background: none;
+    color: #B0ADAB;
+    border: none;
+    cursor: pointer;
+    transform: rotate(90deg);
+    transition: transform 0.2s ease;
+}
+
+.calendar__picker-arrow--up {
+    transform: rotate(-90deg);
+}
+
+.year-item {
+    font-family: Inter;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    color: #080707;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+.year-item.is-active {
+    background: #EFF6FF;
+    font-weight: 700;
+}
+
+.year-list {
+    width: 208px;
+    height: 224px;
+    padding: 4px 1px;
+    border-radius: 4px;
+    border: 1px solid #DDDBDA;
+    box-shadow: 0px 2px 3px 0px #00000029;
+    overflow-y: auto;
+}
+
+.calendar__picker-year {
+    font-family: Inter;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 150%;
+    color: #737373;
+}
+
+.year-list {
+    overflow-y: auto;
+    scrollbar-width: none;        /* Firefox */
+    -ms-overflow-style: none;     /* IE/Edge */
+}
+
+.year-list::-webkit-scrollbar {
+    display: none;                /* Chrome / Safari */
 }
