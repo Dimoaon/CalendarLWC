@@ -11,9 +11,11 @@
     line-height: 1;
     border-right: 1px solid #DADCE0;
     border-bottom: 1px solid #DADCE0;
+    cursor: pointer;
 }
 
 /* DATE */
+
 .calendar__cell-date {
     display: flex;
     align-items: center;
@@ -22,6 +24,7 @@
 }
 
 /* EVENTS */
+
 .calendar__cell-events {
     margin-top: auto;
     margin-bottom: auto;
@@ -32,7 +35,8 @@
     text-align: left;
 }
 
-/* ACTIVE */
+/* ACTIVE (has events) */
+
 .calendar__cell--active {
     background: #BDFFDB;
     border: 1px solid #8FDCB2;
@@ -43,12 +47,14 @@
 }
 
 /* SELECTED */
+
 .calendar__cell--selected {
     outline: 2px solid #0C41FF;
     outline-offset: -2px;
 }
 
 /* TODAY */
+
 .calendar__cell--today {
     background: #F0F0F0;
     font-weight: 700;
@@ -60,6 +66,7 @@
 }
 
 /* TODAY + ACTIVE */
+
 .calendar__cell--today.calendar__cell--active {
     background: #F0F0F0;
 }

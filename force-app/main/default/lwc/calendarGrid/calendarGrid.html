@@ -1,13 +1,11 @@
 <template>
-    <div class="calendar__grid"
-         oncellclick={handleCellClick}>
-
+    <div class="calendar__grid">
         <template for:each={cells} for:item="cell">
             <c-calendar-cell
                 key={cell.key}
-                cell={cell}>
+                cell={cell}
+                oncellclick={handleCellClick}>
             </c-calendar-cell>
         </template>
-
     </div>
 </template>

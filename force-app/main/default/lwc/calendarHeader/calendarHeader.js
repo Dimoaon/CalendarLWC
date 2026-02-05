@@ -2,21 +2,24 @@ import { LightningElement, api } from 'lwc';
 
 export default class CalendarHeader extends LightningElement {
 
-    /* ===================== API ===================== */
+    /* ================= API ================= */
     @api monthLabel;
     @api searchResults = [];
 
-    /* ===================== STATE ===================== */
+    /* ================= STATE ================= */
     showDatePicker = false;
     pickerMode = 'month'; // 'month' | 'year'
     baseYear = new Date().getFullYear();
+
+    showQuickAdd = false;
+    quickTitle = '';
 
     months = [
         'Jan','Feb','Mar','Apr','May','Jun',
         'Jul','Aug','Sep','Oct','Nov','Dec'
     ].map((label, index) => ({ label, index }));
 
-    /* ===================== GETTERS ===================== */
+    /* ================= GETTERS ================= */
 
     get years() {
         return Array.from(
@@ -43,8 +46,7 @@ export default class CalendarHeader extends LightningElement {
             : 'calendar__picker-arrow';
     }
 
-
-    /* ===================== NAV ===================== */
+    /* ================= NAV ================= */
 
     handlePrev() {
         this.dispatchEvent(new CustomEvent('prevmonth'));
@@ -63,8 +65,6 @@ export default class CalendarHeader extends LightningElement {
         this.pickerMode =
             this.pickerMode === 'year' ? 'month' : 'year';
     }
-
-    /* ===================== PICKER ===================== */
 
     selectMonth(e) {
         const month = Number(e.currentTarget.dataset.month);
@@ -96,18 +96,36 @@ export default class CalendarHeader extends LightningElement {
         this.pickerMode = 'month';
     }
 
-    /* ===================== ACTIONS ===================== */
+    /* ================= QUICK ADD ================= */
 
-    handleAdd() {
+    toggleQuickAdd() {
+        this.showQuickAdd = !this.showQuickAdd;
+    }
+
+    closeQuickAdd() {
+        this.showQuickAdd = false;
+        this.quickTitle = '';
+    }
+
+    handleQuickInput(e) {
+        this.quickTitle = e.target.value;
+    }
+
+    saveQuickEvent() {
+        if (!this.quickTitle.trim()) return;
+
         this.dispatchEvent(
             new CustomEvent('addevent', {
+                detail: { title: this.quickTitle },
                 bubbles: true,
                 composed: true
             })
         );
+
+        this.closeQuickAdd();
     }
 
-    /* ===================== SEARCH ===================== */
+    /* ================= SEARCH ================= */
 
     handleSearchInputLocal(e) {
         this.dispatchEvent(

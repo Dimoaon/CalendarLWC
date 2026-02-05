@@ -2,9 +2,15 @@ import { LightningElement, api } from 'lwc';
 
 export default class EventDetailsPopup extends LightningElement {
 
-    @api mode;   // 'list' | 'details'
+    /* ===================== API ===================== */
+
+    @api mode;            // 'list' | 'details' | 'addFull'
     @api events = [];
-    @api event;
+    @api event = null;
+    @api newEventTitle = '';
+    @api rect;            // ← позиционирование от calendar-cell
+
+    /* ===================== MODE ===================== */
 
     get isListMode() {
         return this.mode === 'list';
@@ -14,22 +20,41 @@ export default class EventDetailsPopup extends LightningElement {
         return this.mode === 'details';
     }
 
-    get hasEvents() {
-        return this.events && this.events.length > 0;
+    get isAddMode() {
+        return this.mode === 'addFull';
     }
+
+    get hasEvents() {
+        return Array.isArray(this.events) && this.events.length > 0;
+    }
+
+    /* ===================== POSITION ===================== */
+
+    get popupStyle() {
+        if (!this.rect) return '';
+
+        const OFFSET = 8;
+
+        return `
+            position: fixed;
+            top: ${this.rect.bottom + OFFSET}px;
+            left: ${this.rect.left}px;
+            z-index: 1000;
+        `;
+    }
+
+    /* ===================== COMMON ===================== */
 
     close() {
         this.dispatchEvent(new CustomEvent('close'));
     }
 
-    handleAdd() {
-        this.dispatchEvent(new CustomEvent('addevent'));
-    }
+    /* ===================== LIST ===================== */
 
     handleSelect(e) {
         const id = Number(e.currentTarget.dataset.id);
-        const selected =
-            this.events.find(ev => ev.id === id);
+        const selected = this.events.find(ev => ev.id === id);
+        if (!selected) return;
 
         this.dispatchEvent(
             new CustomEvent('selectevent', {
@@ -38,7 +63,29 @@ export default class EventDetailsPopup extends LightningElement {
         );
     }
 
+    handleAdd() {
+        this.dispatchEvent(new CustomEvent('addevent'));
+    }
+
+    /* ===================== ADD FULL ===================== */
+
+    handleInput(e) {
+        this.dispatchEvent(
+            new CustomEvent('titleinput', {
+                detail: e.target.value
+            })
+        );
+    }
+
+    save() {
+        this.dispatchEvent(new CustomEvent('save'));
+    }
+
+    /* ===================== DETAILS ===================== */
+
     handleDelete() {
+        if (!this.event) return;
+
         this.dispatchEvent(
             new CustomEvent('deleteevent', {
                 detail: this.event.id

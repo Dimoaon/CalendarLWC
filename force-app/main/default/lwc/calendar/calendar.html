@@ -1,50 +1,37 @@
 <template>
     <div class="calendar">
 
+        <!-- ================= HEADER ================= -->
         <c-calendar-header
             month-label={monthLabel}
             search-results={searchResults}
+            is-quick-add-open={isAddQuickMode}
+            quick-add-title={newEventTitle}
             onprevmonth={handlePrevMonth}
             onnextmonth={handleNextMonth}
             onmonthchange={handleMonthChange}
             onyearchange={handleYearChange}
             onaddevent={handleAddEventClick}
+            onquickclose={closePopup}
+            onquickinput={handleTitleInput}
+            onquicksave={saveNewEvent}
             onsearch={handleSearchInput}
             onsearchselect={handleSearchSelect}>
         </c-calendar-header>
 
+        <!-- ================= GRID ================= -->
         <c-calendar-grid
             cells={cells}
             oncellclick={handleCellSelect}>
         </c-calendar-grid>
 
-        <!-- QUICK ADD (header) -->
-        <template if:true={isAddQuickMode}>
-            <c-event-form-popup
-                mode="quick"
-                new-event-title={newEventTitle}
-                onclose={closePopup}
-                ontitleinput={handleTitleInput}
-                onsave={saveNewEvent}>
-            </c-event-form-popup>
-        </template>
-
-        <!-- FULL ADD (empty cell / from list) -->
-        <template if:true={isAddFullMode}>
-            <c-event-form-popup
-                mode="full"
-                new-event-title={newEventTitle}
-                onclose={closePopup}
-                ontitleinput={handleTitleInput}
-                onsave={saveNewEvent}>
-            </c-event-form-popup>
-        </template>
-
+        <!-- ================= CELL-RELATED POPUPS ================= -->
 
         <template if:true={isListMode}>
             <c-event-details-popup
                 mode="list"
                 events={eventsForSelectedDate}
+                rect={activeCellRect}
                 onselectevent={handleEventSelect}
                 onaddevent={openAddFromList}
                 onclose={closePopup}>
@@ -55,8 +42,20 @@
             <c-event-details-popup
                 mode="details"
                 event={selectedEvent}
+                rect={activeCellRect}
                 onclose={closePopup}
                 ondeleteevent={handleDeleteEvent}>
+            </c-event-details-popup>
+        </template>
+
+        <template if:true={isAddFullMode}>
+            <c-event-details-popup
+                mode="addFull"
+                rect={activeCellRect}
+                new-event-title={newEventTitle}
+                ontitleinput={handleTitleInput}
+                onsave={saveNewEvent}
+                onclose={closePopup}>
             </c-event-details-popup>
         </template>
 

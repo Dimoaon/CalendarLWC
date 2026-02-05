@@ -25,7 +25,7 @@
                 <template if:true={showDatePicker}>
                     <div class="calendar__date-picker">
 
-                        <!-- PICKER HEADER (YEAR + ARROW) -->
+                        <!-- PICKER HEADER -->
                         <div class="calendar__picker-header">
                             <span class="calendar__picker-year">
                                 {baseYear}
@@ -36,7 +36,6 @@
                                 onclick={toggleYearPicker}>
                                 <c-icon name="arrow"></c-icon>
                             </button>
-
                         </div>
 
                         <!-- MONTH MODE -->
@@ -90,11 +89,37 @@
             <!-- ADD EVENT -->
             <button
                 class="calendar__add"
-                onclick={handleAdd}>
+                onclick={toggleQuickAdd}>
                 <span class="calendar__text">Add event</span>
                 <c-icon name="plus"
                         class="calendar__plus-icon"></c-icon>
             </button>
+
+            <!-- QUICK ADD POPUP -->
+            <template if:true={showQuickAdd}>
+                <div class="quick-popup">
+
+                    <div class="quick-popup__arrow"></div>
+
+                    <button class="quick-popup__close"
+                            onclick={closeQuickAdd}>
+                        <c-icon name="close"></c-icon>
+                    </button>
+
+                    <input
+                        class="quick-popup__input"
+                        placeholder="March 30, New Event"
+                        oninput={handleQuickInput}
+                    />
+
+                    <button
+                        class="quick-popup__add"
+                        onclick={saveQuickEvent}>
+                        Add event
+                    </button>
+
+                </div>
+            </template>
 
             <!-- SEARCH -->
             <div class="calendar__search-wrapper">

@@ -2,23 +2,30 @@ import { LightningElement } from 'lwc';
 
 export default class Calendar extends LightningElement {
 
+    /* ===================== STATE ===================== */
+
     currentDate = new Date();
     events = {};
 
-    newEventTitle = '';
     selectedDateKey = null;
     selectedEvent = null;
 
-    popupMode = null; // 'addQuick' | 'addFull' | 'list' | 'details'
+    // popup modes:
+    // null | 'addQuick' | 'addFull' | 'list' | 'details'
+    popupMode = null;
+
+    newEventTitle = '';
     searchResults = [];
-    
 
-
+    // rect of clicked calendar cell (for positioning)
+    activeCellRect = null;
 
     weekdays = [
         'Monday','Tuesday','Wednesday',
         'Thursday','Friday','Saturday','Sunday'
     ];
+
+    /* ===================== LIFECYCLE ===================== */
 
     connectedCallback() {
         const stored = localStorage.getItem('calendarEvents');
@@ -26,11 +33,13 @@ export default class Calendar extends LightningElement {
             this.events = JSON.parse(stored);
         }
 
+        // select today by default
         const d = new Date();
         this.selectedDateKey =
             `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
     }
 
+    /* ===================== STORAGE ===================== */
 
     saveEvents() {
         localStorage.setItem(
@@ -38,6 +47,8 @@ export default class Calendar extends LightningElement {
             JSON.stringify(this.events)
         );
     }
+
+    /* ===================== CALENDAR DATA ===================== */
 
     get monthLabel() {
         return this.currentDate.toLocaleString('en-US', {
@@ -48,16 +59,13 @@ export default class Calendar extends LightningElement {
 
     get cells() {
         const today = new Date();
-
         const todayKey =
-            `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
-
+            `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 
         const year = this.currentDate.getFullYear();
         const month = this.currentDate.getMonth();
 
         const firstDay = new Date(year, month, 1);
-
         let startDay = firstDay.getDay();
         startDay = startDay === 0 ? 6 : startDay - 1;
 
@@ -69,6 +77,7 @@ export default class Calendar extends LightningElement {
 
         let cells = [];
 
+        // previous month fillers
         for (let i = startDay - 1; i >= 0; i--) {
             cells.push({
                 key: `p-${i}`,
@@ -77,13 +86,10 @@ export default class Calendar extends LightningElement {
             });
         }
 
+        // current month
         for (let day = 1; day <= daysInMonth; day++) {
-
-            const dateKey =
-                `${year}-${month + 1}-${day}`;
-
-            const dayEvents =
-                this.events[dateKey] || [];
+            const dateKey = `${year}-${month + 1}-${day}`;
+            const dayEvents = this.events[dateKey] || [];
 
             cells.push({
                 key: `c-${day}`,
@@ -95,9 +101,9 @@ export default class Calendar extends LightningElement {
                 isSelected: this.selectedDateKey === dateKey,
                 isToday: dateKey === todayKey
             });
-
         }
 
+        // next month fillers
         let nextDay = 1;
         while (cells.length % 7 !== 0) {
             cells.push({
@@ -109,9 +115,7 @@ export default class Calendar extends LightningElement {
 
         return cells.map((cell, index) => ({
             ...cell,
-            weekday: index < 7
-                ? this.weekdays[index]
-                : null,
+            weekday: index < 7 ? this.weekdays[index] : null,
             cellClass:
                 'calendar__cell' +
                 (cell.hasEvents ? ' calendar__cell--active' : '') +
@@ -119,6 +123,8 @@ export default class Calendar extends LightningElement {
                 (cell.isToday ? ' calendar__cell--today' : '')
         }));
     }
+
+    /* ===================== MONTH NAV ===================== */
 
     handlePrevMonth() {
         const d = new Date(this.currentDate);
@@ -132,64 +138,37 @@ export default class Calendar extends LightningElement {
         this.currentDate = d;
     }
 
+    handleMonthChange(e) {
+        const d = new Date(this.currentDate);
+        d.setMonth(e.detail.month);
+        this.currentDate = d;
+    }
+
+    handleYearChange(e) {
+        const d = new Date(this.currentDate);
+        d.setFullYear(e.detail.year);
+        this.currentDate = d;
+    }
+
+    /* ===================== HEADER: QUICK ADD ===================== */
+
     handleAddEventClick() {
         this.popupMode = 'addQuick';
         this.newEventTitle = '';
         this.selectedEvent = null;
+        this.activeCellRect = null; // header popup doesn't need rect
     }
 
-    openAddFromList() {
-        this.popupMode = 'addFull';
-        this.newEventTitle = '';
-    }
-
-
-    closePopup() {
-        this.popupMode = null;
-        this.selectedEvent = null;
-        this.newEventTitle = '';
-    }
-
-    handleTitleInput(e) {
-        this.newEventTitle = e.detail;
-    }
-
-    saveNewEvent() {
-
-        if (!this.newEventTitle.trim()) return;
-
-        const newEvent = {
-            id: Date.now(),
-            title: this.newEventTitle
-        };
-
-        if (!this.events[this.selectedDateKey]) {
-            this.events[this.selectedDateKey] = [];
-        }
-
-        this.events[this.selectedDateKey].push(newEvent);
-
-        this.events = { ...this.events };
-        this.saveEvents();
-
-        this.popupMode = null;
-        this.newEventTitle = '';
-        this.selectedEvent = null;
-    }
-
-
-    handleEventSelect(e) {
-        this.selectedEvent = e.detail;
-        this.popupMode = 'details';
-    }
-
+    /* ===================== CELL CLICK ===================== */
 
     handleCellSelect(e) {
-        const { dateKey, events } = e.detail;
+        const { dateKey, events, rect } = e.detail;
 
         this.selectedDateKey = dateKey;
         this.selectedEvent = null;
+        this.activeCellRect = rect;
 
+        // if quick add is open → just select date, do nothing else
         if (this.popupMode === 'addQuick') {
             return;
         }
@@ -202,45 +181,52 @@ export default class Calendar extends LightningElement {
         }
     }
 
+    /* ===================== EVENT POPUP ACTIONS ===================== */
 
+    handleEventSelect(e) {
+        this.selectedEvent = e.detail;
+        this.popupMode = 'details';
+    }
 
-    handleSearchInput(e) {
-        const query = e.detail.toLowerCase();
+    openAddFromList() {
+        this.popupMode = 'addFull';
+        this.newEventTitle = '';
+    }
 
-        if (!query) {
-            this.searchResults = [];
-            return;
+    closePopup() {
+        this.popupMode = null;
+        this.selectedEvent = null;
+        this.newEventTitle = '';
+        this.activeCellRect = null;
+    }
+
+    /* ===================== ADD / SAVE ===================== */
+
+    handleTitleInput(e) {
+        this.newEventTitle = e.detail;
+    }
+
+    saveNewEvent() {
+        if (!this.newEventTitle.trim()) return;
+
+        const newEvent = {
+            id: Date.now(),
+            title: this.newEventTitle
+        };
+
+        if (!this.events[this.selectedDateKey]) {
+            this.events[this.selectedDateKey] = [];
         }
 
-        const results = [];
+        this.events[this.selectedDateKey].push(newEvent);
+        this.events = { ...this.events };
+        this.saveEvents();
 
-        Object.entries(this.events).forEach(([dateKey, events]) => {
-            events.forEach(ev => {
-                if (ev.title.toLowerCase().includes(query)) {
-                    results.push({
-                        ...ev,
-                        dateKey
-                    });
-                }
-            });
-        });
-
-        this.searchResults = results;
+        this.popupMode = null;
+        this.newEventTitle = '';
+        this.selectedEvent = null;
+        this.activeCellRect = null;
     }
-
-
-    handleSearchSelect(e) {
-        const { dateKey } = e.detail;
-
-        const [year, month, day] =
-            dateKey.split('-').map(Number);
-
-        this.currentDate = new Date(year, month - 1, 1);
-        this.selectedDateKey = dateKey;
-
-        this.searchResults = [];
-    }
-
 
     handleDeleteEvent(e) {
         const eventId = e.detail;
@@ -257,27 +243,45 @@ export default class Calendar extends LightningElement {
         this.events = { ...this.events };
         this.saveEvents();
 
-        if (this.eventsForSelectedDate.length > 0) {
-            this.popupMode = 'list';
-        } else {
-            this.popupMode = null;
-        }
+        this.popupMode =
+            this.eventsForSelectedDate.length > 0 ? 'list' : null;
 
         this.selectedEvent = null;
     }
 
+    /* ===================== SEARCH ===================== */
 
-    handleMonthChange(e) {
-        const d = new Date(this.currentDate);
-        d.setMonth(e.detail.month);
-        this.currentDate = d;
+    handleSearchInput(e) {
+        const query = e.detail.toLowerCase();
+
+        if (!query) {
+            this.searchResults = [];
+            return;
+        }
+
+        const results = [];
+
+        Object.entries(this.events).forEach(([dateKey, events]) => {
+            events.forEach(ev => {
+                if (ev.title.toLowerCase().includes(query)) {
+                    results.push({ ...ev, dateKey });
+                }
+            });
+        });
+
+        this.searchResults = results;
     }
 
-    handleYearChange(e) {
-        const d = new Date(this.currentDate);
-        d.setFullYear(e.detail.year);
-        this.currentDate = d;
+    handleSearchSelect(e) {
+        const { dateKey } = e.detail;
+        const [year, month] = dateKey.split('-').map(Number);
+
+        this.currentDate = new Date(year, month - 1, 1);
+        this.selectedDateKey = dateKey;
+        this.searchResults = [];
     }
+
+    /* ===================== MODE GETTERS ===================== */
 
     get isAddQuickMode() {
         return this.popupMode === 'addQuick';
@@ -295,9 +299,7 @@ export default class Calendar extends LightningElement {
         return this.popupMode === 'details';
     }
 
-
     get eventsForSelectedDate() {
         return this.events[this.selectedDateKey] || [];
     }
-
 }

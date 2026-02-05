@@ -1,10 +1,10 @@
 <template>
-    <div class={cell.cellClass}
-         onclick={handleClick}>
-
-        <!-- DATE -->
+    <div
+        class={cell.cellClass}
+        onclick={handleClick}
+    >
+        <!-- DATE (top-left, one line) -->
         <div class="calendar__cell-date">
-
             <template if:true={cell.weekday}>
                 <span class="calendar__cell-weekday">
                     {cell.weekday},
@@ -14,20 +14,18 @@
             <span class="calendar__cell-label">
                 {cell.label}
             </span>
-
         </div>
 
-
-        <!-- EVENTS -->
+        <!-- EVENTS (left, vertically centered) -->
         <div class="calendar__cell-events">
-            <template for:each={cell.events}
-                      for:item="event">
-                <div key={event.id}
-                     class="calendar__event">
+            <template for:each={cell.events} for:item="event">
+                <div
+                    key={event.id}
+                    class="calendar__event"
+                >
                     {event.title}
                 </div>
             </template>
         </div>
-
     </div>
 </template>
