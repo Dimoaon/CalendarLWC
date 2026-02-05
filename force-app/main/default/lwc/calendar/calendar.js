@@ -10,7 +10,6 @@ export default class Calendar extends LightningElement {
     selectedDateKey = null;
     selectedEvent = null;
 
-    // popup modes:
     // null | 'addQuick' | 'addFull' | 'list' | 'details'
     popupMode = null;
 
@@ -153,10 +152,25 @@ export default class Calendar extends LightningElement {
     /* ===================== HEADER: QUICK ADD ===================== */
 
     handleAddEventClick() {
+        // ensure date exists
+        if (!this.selectedDateKey) {
+            const d = new Date();
+            this.selectedDateKey =
+                `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+        }
+
         this.popupMode = 'addQuick';
         this.newEventTitle = '';
         this.selectedEvent = null;
-        this.activeCellRect = null; // header popup doesn't need rect
+        this.activeCellRect = null;
+    }
+
+    handleQuickSave(e) {
+        const title = e.detail?.title;
+        if (!title?.trim()) return;
+
+        this.newEventTitle = title;
+        this.saveNewEvent();
     }
 
     /* ===================== CELL CLICK ===================== */
@@ -164,14 +178,16 @@ export default class Calendar extends LightningElement {
     handleCellSelect(e) {
         const { dateKey, events, rect } = e.detail;
 
+        // quick add is open → only change date
+        if (this.popupMode === 'addQuick') {
+            this.selectedDateKey = dateKey;
+            this.activeCellRect = null;
+            return;
+        }
+
         this.selectedDateKey = dateKey;
         this.selectedEvent = null;
         this.activeCellRect = rect;
-
-        // if quick add is open → just select date, do nothing else
-        if (this.popupMode === 'addQuick') {
-            return;
-        }
 
         if (!events || events.length === 0) {
             this.popupMode = 'addFull';
@@ -227,6 +243,7 @@ export default class Calendar extends LightningElement {
         this.selectedEvent = null;
         this.activeCellRect = null;
     }
+
 
     handleDeleteEvent(e) {
         const eventId = e.detail;

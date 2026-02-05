@@ -3,16 +3,19 @@ import { LightningElement, api } from 'lwc';
 export default class CalendarHeader extends LightningElement {
 
     /* ================= API ================= */
+
     @api monthLabel;
     @api searchResults = [];
 
+    // quick add state (controlled by Calendar)
+    @api isQuickAddOpen;
+    @api quickAddTitle;
+
     /* ================= STATE ================= */
+
     showDatePicker = false;
     pickerMode = 'month'; // 'month' | 'year'
     baseYear = new Date().getFullYear();
-
-    showQuickAdd = false;
-    quickTitle = '';
 
     months = [
         'Jan','Feb','Mar','Apr','May','Jun',
@@ -82,7 +85,6 @@ export default class CalendarHeader extends LightningElement {
 
     selectYear(e) {
         const year = Number(e.currentTarget.dataset.year);
-
         this.baseYear = year;
 
         this.dispatchEvent(
@@ -99,30 +101,23 @@ export default class CalendarHeader extends LightningElement {
     /* ================= QUICK ADD ================= */
 
     toggleQuickAdd() {
-        this.showQuickAdd = !this.showQuickAdd;
+        this.dispatchEvent(new CustomEvent('addevent'));
     }
 
     closeQuickAdd() {
-        this.showQuickAdd = false;
-        this.quickTitle = '';
+        this.dispatchEvent(new CustomEvent('quickclose'));
     }
 
     handleQuickInput(e) {
-        this.quickTitle = e.target.value;
+        this.dispatchEvent(
+            new CustomEvent('quickinput', {
+                detail: e.target.value
+            })
+        );
     }
 
     saveQuickEvent() {
-        if (!this.quickTitle.trim()) return;
-
-        this.dispatchEvent(
-            new CustomEvent('addevent', {
-                detail: { title: this.quickTitle },
-                bubbles: true,
-                composed: true
-            })
-        );
-
-        this.closeQuickAdd();
+        this.dispatchEvent(new CustomEvent('quicksave'));
     }
 
     /* ================= SEARCH ================= */

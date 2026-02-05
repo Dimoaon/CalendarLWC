@@ -1,15 +1,17 @@
 <template>
     <div class="calendar__header">
 
-        <!-- NAVIGATION -->
+        <!-- ================= NAVIGATION ================= -->
         <div class="calendar__nav">
 
             <!-- PREV -->
             <button
                 class="calendar__nav-btn calendar__nav-btn--rotate"
                 onclick={handlePrev}>
-                <c-icon name="arrow"
-                        class="calendar__month-switcher"></c-icon>
+                <c-icon
+                    name="arrow"
+                    class="calendar__month-switcher">
+                </c-icon>
             </button>
 
             <!-- TITLE + PICKER -->
@@ -77,13 +79,15 @@
             <button
                 class="calendar__nav-btn"
                 onclick={handleNext}>
-                <c-icon name="arrow"
-                        class="calendar__month-switcher"></c-icon>
+                <c-icon
+                    name="arrow"
+                    class="calendar__month-switcher">
+                </c-icon>
             </button>
 
         </div>
 
-        <!-- ACTIONS -->
+        <!-- ================= ACTIONS ================= -->
         <div class="calendar__actions">
 
             <!-- ADD EVENT -->
@@ -91,23 +95,27 @@
                 class="calendar__add"
                 onclick={toggleQuickAdd}>
                 <span class="calendar__text">Add event</span>
-                <c-icon name="plus"
-                        class="calendar__plus-icon"></c-icon>
+                <c-icon
+                    name="plus"
+                    class="calendar__plus-icon">
+                </c-icon>
             </button>
 
             <!-- QUICK ADD POPUP -->
-            <template if:true={showQuickAdd}>
+            <template if:true={isQuickAddOpen}>
                 <div class="quick-popup">
 
                     <div class="quick-popup__arrow"></div>
 
-                    <button class="quick-popup__close"
-                            onclick={closeQuickAdd}>
+                    <button
+                        class="quick-popup__close"
+                        onclick={closeQuickAdd}>
                         <c-icon name="close"></c-icon>
                     </button>
 
                     <input
                         class="quick-popup__input"
+                        value={quickAddTitle}
                         placeholder="March 30, New Event"
                         oninput={handleQuickInput}
                     />
@@ -123,8 +131,10 @@
 
             <!-- SEARCH -->
             <div class="calendar__search-wrapper">
-                <c-icon name="search"
-                        class="calendar__search-icon"></c-icon>
+                <c-icon
+                    name="search"
+                    class="calendar__search-icon">
+                </c-icon>
 
                 <input
                     class="calendar__search"
