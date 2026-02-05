@@ -1,0 +1,86 @@
+:root {
+  /* =========================
+     Colors
+     ========================= */
+
+  /* Backgrounds */
+  --c-bg-page: #FFFFFF;
+  --c-bg-today: #F0F0F0;
+  --c-bg-event: #BDFFDB;
+
+  /* Borders */
+  --c-border-grid: #DADCE0;
+  --c-border-event: #8FDCB2;
+  --c-border-input: #A1A1AA;
+  --c-border-popup: #DDDBDA;
+  --c-border-primary: #0C41FF;
+
+  /* Accent */
+  --c-primary: #0C41FF;
+
+  /* Text */
+  --c-text-cell: #717171;
+  --c-text-placeholder: #A1A1AA;
+  --c-text-popup: #333333;
+  --c-text-event: #2C5A41;
+
+  /* =========================
+     Shadows
+     ========================= */
+
+  /* Large popups */
+  --shadow-popup-lg: 0px 2px 3px rgba(0, 0, 0, 0.2);
+
+  /* Small popups */
+  --shadow-popup-sm: 0px 2px 3px rgba(0, 0, 0, 0.16);
+
+  /* =========================
+     Borders & Radius
+     ========================= */
+
+  --border-width-default: 1px;
+
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+
+  /* =========================
+     Spacing scale
+     ========================= */
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+
+  /* =========================
+     Typography
+     ========================= */
+
+  --font-family-base: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-lg: 16px;
+
+  --line-height-sm: 16px;
+  --line-height-base: 20px;
+  --line-height-lg: 24px;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --letter-spacing-base: 0px;
+
+  /* =========================
+     Layout / Z-index
+     ========================= */
+
+  --z-dropdown: 100;
+  --z-popup: 200;
+  --z-overlay: 300;
+}

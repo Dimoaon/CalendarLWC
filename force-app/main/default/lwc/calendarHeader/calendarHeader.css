@@ -5,7 +5,7 @@
 .calendar__header {
     display: flex;
     justify-content: space-between;
-    padding: 16px;
+    padding: var(--space-3) var(--space-4);
     border-bottom: 1px solid #DADCE099;
     background: #fff;
 }

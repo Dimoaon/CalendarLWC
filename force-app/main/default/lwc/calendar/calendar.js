@@ -1,4 +1,6 @@
 import { LightningElement } from 'lwc';
+import { loadStyle } from 'lightning/platformResourceLoader';
+import calendarTokens from '@salesforce/resourceUrl/calendarTokens';
 
 export default class Calendar extends LightningElement {
 
@@ -27,6 +29,7 @@ export default class Calendar extends LightningElement {
     /* ===================== LIFECYCLE ===================== */
 
     connectedCallback() {
+        loadStyle(this, calendarTokens);
         const stored = localStorage.getItem('calendarEvents');
         if (stored) {
             this.events = JSON.parse(stored);
