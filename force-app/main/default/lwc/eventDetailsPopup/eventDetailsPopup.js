@@ -92,4 +92,33 @@ export default class EventDetailsPopup extends LightningElement {
             })
         );
     }
+
+    get popupStyle() {
+        if (!this.rect) return '';
+
+        const OFFSET = 8;
+        const POPUP_WIDTH = 320;
+        const POPUP_HEIGHT = 260;
+
+        let top = this.rect.bottom + OFFSET;
+        let left = this.rect.left;
+
+        // flip horizontally
+        if (left + POPUP_WIDTH > window.innerWidth) {
+            left = this.rect.right - POPUP_WIDTH;
+        }
+
+        // flip vertically
+        if (top + POPUP_HEIGHT > window.innerHeight) {
+            top = this.rect.top - POPUP_HEIGHT - OFFSET;
+        }
+
+        return `
+            position: fixed;
+            top: ${top}px;
+            left: ${left}px;
+            z-index: var(--z-overlay);
+        `;
+    }
+
 }

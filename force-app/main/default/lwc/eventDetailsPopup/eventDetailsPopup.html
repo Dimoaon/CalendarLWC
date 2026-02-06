@@ -1,17 +1,24 @@
 <template>
-    <div class="event-popup"
-         style={popupStyle}>
+    <div
+        class="event-popup"
+        style={popupStyle}
+    >
+        <!-- caret / arrow -->
+        <div class="event-popup__caret"></div>
 
-        <!-- HEADER -->
+        <!-- ================= HEADER ================= -->
         <div class="event-popup__header">
-            <div class="event-popup__title">
+            <h3 class="event-popup__title">
                 <template if:true={isListMode}>Events</template>
-                <template if:true={isDetailsMode}>Event details</template>
+                <template if:true={isDetailsMode}>{event.title}</template>
                 <template if:true={isAddMode}>Add event</template>
-            </div>
+            </h3>
 
-            <button class="event-popup__close"
-                    onclick={close}>
+            <button
+                class="event-popup__close"
+                onclick={close}
+                aria-label="Close"
+            >
                 <c-icon name="close"></c-icon>
             </button>
         </div>
@@ -22,11 +29,15 @@
                 <template if:true={hasEvents}>
                     <ul class="event-list">
                         <template for:each={events} for:item="ev">
-                            <li key={ev.id}
+                            <li
+                                key={ev.id}
                                 class="event-list__item"
                                 data-id={ev.id}
-                                onclick={handleSelect}>
-                                {ev.title}
+                                onclick={handleSelect}
+                            >
+                                <span class="event-list__title">
+                                    {ev.title}
+                                </span>
                             </li>
                         </template>
                     </ul>
@@ -40,8 +51,10 @@
             </div>
 
             <div class="event-popup__footer">
-                <button class="btn btn--secondary"
-                        onclick={handleAdd}>
+                <button
+                    class="btn btn--primary"
+                    onclick={handleAdd}
+                >
                     Add event
                 </button>
             </div>
@@ -50,37 +63,91 @@
         <!-- ================= DETAILS MODE ================= -->
         <template if:true={isDetailsMode}>
             <div class="event-popup__content">
-                <div class="event-details__title">
-                    {event.title}
+
+                <div class="event-details__date">
+                    {event.dateLabel}
                 </div>
+
+                <div class="event-details__row">
+                    <span class="event-details__label">Participants:</span>
+                    <span class="event-details__value">
+                        {event.participants}
+                    </span>
+                </div>
+
+                <div class="event-details__row">
+                    <span class="event-details__label">Description:</span>
+                    <span class="event-details__value">
+                        {event.description}
+                    </span>
+                </div>
+
             </div>
 
-            <div class="event-popup__footer">
-                <button class="btn btn--danger"
-                        onclick={handleDelete}>
-                    Delete
+            <div class="event-popup__footer event-popup__footer--split">
+                <button
+                    class="btn btn--secondary"
+                    onclick={close}
+                >
+                    Cancel
+                </button>
+
+                <button
+                    class="btn btn--danger"
+                    onclick={handleDelete}
+                >
+                    Delete Event
                 </button>
             </div>
         </template>
 
-        <!-- ================= FULL ADD MODE ================= -->
+        <!-- ================= ADD FULL MODE ================= -->
         <template if:true={isAddMode}>
             <div class="event-popup__content">
+
+                <label class="event-form__label required">
+                    Event name
+                </label>
                 <input
                     class="event-form__input"
                     value={newEventTitle}
                     oninput={handleInput}
-                    placeholder="Event title"
+                    placeholder="Event name"
                 />
+
+                <label class="event-form__label required">
+                    Participants
+                </label>
+                <input
+                    class="event-form__input"
+                    placeholder="Participants"
+                />
+
+                <label class="event-form__label">
+                    Description
+                </label>
+                <textarea
+                    class="event-form__textarea"
+                    placeholder="Some text"
+                ></textarea>
+
             </div>
 
-            <div class="event-popup__footer">
-                <button class="btn btn--primary"
-                        onclick={save}>
-                    Save
+            <div class="event-popup__footer event-popup__footer--split">
+                <button
+                    class="btn btn--secondary"
+                    onclick={close}
+                >
+                    Cancel
+                </button>
+
+                <button
+                    class="btn btn--primary"
+                    onclick={save}
+                >
+                    Add Event
                 </button>
             </div>
         </template>
-
     </div>
 </template>

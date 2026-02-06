@@ -371,7 +371,7 @@
     border: var(--border-width-default) solid #ccc;
     border-radius: var(--radius-popup);
     box-shadow: var(--shadow-popup-lg);
-    z-index: var(--z-overlay);
+    z-index: var(--z-dropdown);
 }
 
 .calendar__search-item {
