@@ -2,7 +2,7 @@
 
 Test task implementation for ForteNext.
 
-https://dima2-dev-ed.develop.my.site.com/
+URL
 
 ## Current functionality
 

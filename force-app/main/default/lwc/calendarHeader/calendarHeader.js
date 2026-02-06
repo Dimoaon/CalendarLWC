@@ -7,7 +7,6 @@ export default class CalendarHeader extends LightningElement {
     @api monthLabel;
     @api searchResults = [];
 
-    // quick add state (controlled by Calendar)
     @api isQuickAddOpen;
     @api quickAddTitle;
 

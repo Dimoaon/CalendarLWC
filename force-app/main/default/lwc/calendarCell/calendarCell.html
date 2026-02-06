@@ -3,7 +3,7 @@
         class={cell.cellClass}
         onclick={handleClick}
     >
-        <!-- DATE (top-left, one line) -->
+        <!-- DATE -->
         <div class="calendar__cell-date">
             <template if:true={cell.weekday}>
                 <span class="calendar__cell-weekday">
@@ -16,14 +16,21 @@
             </span>
         </div>
 
-        <!-- EVENTS (left, vertically centered) -->
+        <!-- EVENTS -->
         <div class="calendar__cell-events">
-            <template for:each={cell.events} for:item="event">
+            <template for:each={visibleEvents} for:item="event">
                 <div
                     key={event.id}
                     class="calendar__event"
                 >
                     {event.title}
+                </div>
+            </template>
+
+            <!-- OVERFLOW INDICATOR -->
+            <template if:true={hasOverflow}>
+                <div class="calendar__event-more">
+                    +{hiddenCount}
                 </div>
             </template>
         </div>

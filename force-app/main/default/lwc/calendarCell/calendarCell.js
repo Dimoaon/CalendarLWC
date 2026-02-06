@@ -1,23 +1,46 @@
 import { LightningElement, api } from 'lwc';
 
+const MAX_VISIBLE_EVENTS = 4;
+
 export default class CalendarCell extends LightningElement {
     @api cell;
 
+    /* =====================
+       COMPUTED
+       ===================== */
+
+    get events() {
+        return this.cell?.events || [];
+    }
+
+    get hasOverflow() {
+        return this.events.length > MAX_VISIBLE_EVENTS;
+    }
+
+    get visibleEvents() {
+        return this.hasOverflow
+            ? this.events.slice(0, MAX_VISIBLE_EVENTS)
+            : this.events;
+    }
+
+    get hiddenCount() {
+        return this.events.length - MAX_VISIBLE_EVENTS;
+    }
+
+    /* =====================
+       EVENTS
+       ===================== */
+
     handleClick() {
-        // клики по "пустым" (prev/next month) клеткам игнорируем
         if (!this.cell?.dateKey) return;
 
-        /**
-         * rect — это ЯКОРЬ для всех popup'ов:
-         * list / details / addFull
-         */
         const rect = this.template.host.getBoundingClientRect();
 
         this.dispatchEvent(
             new CustomEvent('cellclick', {
                 detail: {
                     dateKey: this.cell.dateKey,
-                    events: this.cell.events || [],
+                    events: this.events,
                     rect
                 },
                 bubbles: true,
