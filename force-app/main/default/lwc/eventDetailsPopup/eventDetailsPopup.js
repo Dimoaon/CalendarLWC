@@ -1,16 +1,34 @@
 import { LightningElement, api } from 'lwc';
 
+const OFFSET = 8;
+const POPUP_WIDTH_DEFAULT = 320;
+const POPUP_WIDTH_ADD = 370;
+const POPUP_HEIGHT = 260;
+const CARET_SIZE = 12;
+const VIEWPORT_PADDING = 8;
+
 export default class EventDetailsPopup extends LightningElement {
 
-    /* ===================== API ===================== */
+    /* =====================
+       API
+       ===================== */
 
     @api mode;            // 'list' | 'details' | 'addFull'
     @api events = [];
     @api event = null;
     @api newEventTitle = '';
-    @api rect;            // ← позиционирование от calendar-cell
+    @api rect;            // DOMRect of calendar-cell
 
-    /* ===================== MODE ===================== */
+    /* =====================
+       INTERNAL STATE
+       ===================== */
+
+    caretTop = 0;
+    caretLeft = 0;
+
+    /* =====================
+       MODE
+       ===================== */
 
     get isListMode() {
         return this.mode === 'list';
@@ -28,28 +46,110 @@ export default class EventDetailsPopup extends LightningElement {
         return Array.isArray(this.events) && this.events.length > 0;
     }
 
-    /* ===================== POSITION ===================== */
+    /* =====================
+       SIZE
+       ===================== */
+
+    get popupWidth() {
+        return this.isAddMode
+            ? POPUP_WIDTH_ADD
+            : POPUP_WIDTH_DEFAULT;
+    }
+
+    /* =====================
+       CARET STYLE
+       ===================== */
+
+    get caretStyle() {
+        return `
+            top: ${this.caretTop}px;
+            left: ${this.caretLeft}px;
+        `;
+    }
+
+    /* =====================
+       POSITIONING (SIDE-BASED)
+       ===================== */
 
     get popupStyle() {
         if (!this.rect) return '';
 
-        const OFFSET = 8;
+        const viewportW = window.innerWidth;
+        const viewportH = window.innerHeight;
+
+        const popupWidth = this.popupWidth;
+        const popupHeight = POPUP_HEIGHT;
+
+        // центр ячейки по Y
+        const anchorY = this.rect.top + this.rect.height / 2;
+
+        let top;
+        let left;
+        let placeLeft = true;
+
+        /* ---------- HORIZONTAL ---------- */
+        // по умолчанию — слева от ячейки
+        left = this.rect.left - popupWidth - OFFSET;
+
+        // если не помещается — справа
+        if (left < VIEWPORT_PADDING) {
+            left = this.rect.right + OFFSET;
+            placeLeft = false;
+        }
+
+        /* ---------- VERTICAL ---------- */
+        top = anchorY - popupHeight / 2;
+
+        // ограничение сверху
+        if (top < VIEWPORT_PADDING) {
+            top = VIEWPORT_PADDING;
+        }
+
+        // ограничение снизу
+        if (top + popupHeight > viewportH - VIEWPORT_PADDING) {
+            top = viewportH - popupHeight - VIEWPORT_PADDING;
+        }
+
+        /* ---------- CARET POSITION ---------- */
+        this.caretTop = anchorY - top - CARET_SIZE / 2;
+
+        // не даём caret выйти за края попапа
+        this.caretTop = Math.max(
+            12,
+            Math.min(this.caretTop, popupHeight - 24)
+        );
+
+        this.caretLeft = placeLeft
+            ? popupWidth - CARET_SIZE / 2   // caret справа
+            : -CARET_SIZE / 2;              // caret слева
+
+        /* ---------- APPLY CLASSES ---------- */
+        requestAnimationFrame(() => {
+            const popup = this.template.querySelector('.event-popup');
+            if (!popup) return;
+
+            popup.classList.toggle('event-popup--add', this.isAddMode);
+        });
 
         return `
             position: fixed;
-            top: ${this.rect.bottom + OFFSET}px;
-            left: ${this.rect.left}px;
-            z-index: 1000;
+            top: ${top}px;
+            left: ${left}px;
+            z-index: var(--z-overlay);
         `;
     }
 
-    /* ===================== COMMON ===================== */
+    /* =====================
+       COMMON
+       ===================== */
 
     close() {
         this.dispatchEvent(new CustomEvent('close'));
     }
 
-    /* ===================== LIST ===================== */
+    /* =====================
+       LIST MODE
+       ===================== */
 
     handleSelect(e) {
         const id = Number(e.currentTarget.dataset.id);
@@ -67,7 +167,9 @@ export default class EventDetailsPopup extends LightningElement {
         this.dispatchEvent(new CustomEvent('addevent'));
     }
 
-    /* ===================== ADD FULL ===================== */
+    /* =====================
+       ADD FULL MODE
+       ===================== */
 
     handleInput(e) {
         this.dispatchEvent(
@@ -81,7 +183,9 @@ export default class EventDetailsPopup extends LightningElement {
         this.dispatchEvent(new CustomEvent('save'));
     }
 
-    /* ===================== DETAILS ===================== */
+    /* =====================
+       DETAILS MODE
+       ===================== */
 
     handleDelete() {
         if (!this.event) return;
@@ -92,33 +196,4 @@ export default class EventDetailsPopup extends LightningElement {
             })
         );
     }
-
-    get popupStyle() {
-        if (!this.rect) return '';
-
-        const OFFSET = 8;
-        const POPUP_WIDTH = 320;
-        const POPUP_HEIGHT = 260;
-
-        let top = this.rect.bottom + OFFSET;
-        let left = this.rect.left;
-
-        // flip horizontally
-        if (left + POPUP_WIDTH > window.innerWidth) {
-            left = this.rect.right - POPUP_WIDTH;
-        }
-
-        // flip vertically
-        if (top + POPUP_HEIGHT > window.innerHeight) {
-            top = this.rect.top - POPUP_HEIGHT - OFFSET;
-        }
-
-        return `
-            position: fixed;
-            top: ${top}px;
-            left: ${left}px;
-            z-index: var(--z-overlay);
-        `;
-    }
-
 }
