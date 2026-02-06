@@ -11,11 +11,13 @@ export default class CalendarHeader extends LightningElement {
     @api isQuickAddOpen;
     @api quickAddTitle;
 
-    /* ================= STATE ================= */
+    /* ================= LOCAL STATE ================= */
 
     showDatePicker = false;
     pickerMode = 'month'; // 'month' | 'year'
     baseYear = new Date().getFullYear();
+
+    searchValue = '';
 
     months = [
         'Jan','Feb','Mar','Apr','May','Jun',
@@ -35,6 +37,10 @@ export default class CalendarHeader extends LightningElement {
         return this.searchResults.length > 0;
     }
 
+    get hasSearchValue() {
+        return this.searchValue && this.searchValue.length > 0;
+    }
+
     get isMonthMode() {
         return this.pickerMode === 'month';
     }
@@ -49,7 +55,7 @@ export default class CalendarHeader extends LightningElement {
             : 'calendar__picker-arrow';
     }
 
-    /* ================= NAV ================= */
+    /* ================= NAVIGATION ================= */
 
     handlePrev() {
         this.dispatchEvent(new CustomEvent('prevmonth'));
@@ -123,9 +129,23 @@ export default class CalendarHeader extends LightningElement {
     /* ================= SEARCH ================= */
 
     handleSearchInputLocal(e) {
+        const value = e.target.value;
+        this.searchValue = value;
+
         this.dispatchEvent(
             new CustomEvent('search', {
-                detail: e.target.value
+                detail: value
+            })
+        );
+    }
+
+    clearSearch() {
+        this.searchValue = '';
+        this.searchResults = [];
+
+        this.dispatchEvent(
+            new CustomEvent('search', {
+                detail: ''
             })
         );
     }

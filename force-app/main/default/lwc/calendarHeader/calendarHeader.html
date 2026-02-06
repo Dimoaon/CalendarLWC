@@ -107,18 +107,20 @@
 
                     <div class="quick-popup__arrow"></div>
 
-                    <button
-                        class="quick-popup__close"
-                        onclick={closeQuickAdd}>
-                        <c-icon name="close"></c-icon>
-                    </button>
+                    <div class="quick-popup__input-wrapper">
+                        <button
+                            class="quick-popup__close"
+                            onclick={closeQuickAdd}>
+                            <c-icon name="close"></c-icon>
+                        </button>
 
-                    <input
-                        class="quick-popup__input"
-                        value={quickAddTitle}
-                        placeholder="New Event"
-                        oninput={handleQuickInput}
-                    />
+                        <input
+                            class="quick-popup__input"
+                            value={quickAddTitle}
+                            placeholder="New Event"
+                            oninput={handleQuickInput}
+                        />
+                    </div>
 
                     <button
                         class="quick-popup__add"
@@ -131,6 +133,7 @@
 
             <!-- SEARCH -->
             <div class="calendar__search-wrapper">
+
                 <c-icon
                     name="search"
                     class="calendar__search-icon">
@@ -138,9 +141,20 @@
 
                 <input
                     class="calendar__search"
+                    value={searchValue}
                     placeholder="Search"
                     oninput={handleSearchInputLocal}
                 />
+
+                <!-- CLEAR SEARCH -->
+                <template if:true={hasSearchValue}>
+                    <button
+                        class="calendar__search-clear"
+                        onclick={clearSearch}>
+                        <c-icon name="close"></c-icon>
+                    </button>
+                </template>
+
             </div>
 
             <!-- SEARCH RESULTS -->
