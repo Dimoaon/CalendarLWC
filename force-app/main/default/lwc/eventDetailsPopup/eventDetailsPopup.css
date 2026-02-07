@@ -238,11 +238,16 @@
    VALIDATION ERROR
    ===================================================== */
 
-.event-form__input--error,
-.event-form__textarea--error {
+.event-form__input.is-error,
+.event-form__textarea.is-error {
     border-color: #d92d20;
     box-shadow: 0 0 0 1px rgba(217, 45, 32, 0.45);
 }
+
+.event-form__label.is-error {
+    color: #d92d20;
+}
+
 
 .event-form__error {
     margin-top: -6px;

@@ -83,6 +83,7 @@ export default class Calendar extends LightningElement {
 
         let cells = [];
 
+        // prev month
         for (let i = startDay - 1; i >= 0; i--) {
             cells.push({
                 key: `p-${i}`,
@@ -91,6 +92,7 @@ export default class Calendar extends LightningElement {
             });
         }
 
+        // current month
         for (let day = 1; day <= daysInMonth; day++) {
             const dateKey = `${year}-${month + 1}-${day}`;
             const dayEvents = this.events[dateKey] || [];
@@ -107,6 +109,7 @@ export default class Calendar extends LightningElement {
             });
         }
 
+        // next month
         let nextDay = 1;
         while (cells.length % 7 !== 0) {
             cells.push({
@@ -128,7 +131,7 @@ export default class Calendar extends LightningElement {
     }
 
     /* =====================
-       MONTH NAV
+       MONTH / YEAR NAV (FIX)
        ===================== */
 
     handlePrevMonth() {
@@ -140,6 +143,18 @@ export default class Calendar extends LightningElement {
     handleNextMonth() {
         const d = new Date(this.currentDate);
         d.setMonth(d.getMonth() + 1);
+        this.currentDate = d;
+    }
+
+    handleMonthChange(e) {
+        const d = new Date(this.currentDate);
+        d.setMonth(e.detail.month);
+        this.currentDate = d;
+    }
+
+    handleYearChange(e) {
+        const d = new Date(this.currentDate);
+        d.setFullYear(e.detail.year);
         this.currentDate = d;
     }
 
@@ -266,6 +281,44 @@ export default class Calendar extends LightningElement {
             this.eventsForSelectedDate.length > 0 ? 'list' : null;
 
         this.selectedEvent = null;
+    }
+
+    /* =====================
+       SEARCH
+       ===================== */
+
+    handleSearchInput(e) {
+        const query = e.detail?.trim().toLowerCase();
+
+        if (!query) {
+            this.searchResults = [];
+            return;
+        }
+
+        const results = [];
+
+        Object.entries(this.events).forEach(([dateKey, events]) => {
+            events.forEach(ev => {
+                if (ev.title && ev.title.toLowerCase().includes(query)) {
+                    results.push({ ...ev, dateKey });
+                }
+            });
+        });
+
+        this.searchResults = results;
+    }
+
+    handleSearchSelect(e) {
+        const { dateKey } = e.detail;
+        if (!dateKey) return;
+
+        const [year, month] = dateKey.split('-').map(Number);
+
+        this.currentDate = new Date(year, month - 1, 1);
+        this.selectedDateKey = dateKey;
+
+        this.popupMode = null;
+        this.searchResults = [];
     }
 
     /* =====================
