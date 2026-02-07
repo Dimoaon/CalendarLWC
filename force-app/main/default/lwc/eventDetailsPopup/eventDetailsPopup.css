@@ -31,6 +31,9 @@
     background: var(--c-bg-page);
     transform: rotate(45deg);
 
+    border-right: var(--border-width-default) solid var(--c-border-popup);
+    border-top: var(--border-width-default) solid var(--c-border-popup);
+
     z-index: 2;
 }
 
@@ -59,22 +62,14 @@
 .event-popup--flip-x .event-popup__caret {
     left: auto;
     right: -6px;
+    border-top: none;
+    border-right: none;
+    border-left: var(--border-width-default) solid var(--c-border-popup);
+    border-bottom: var(--border-width-default) solid var(--c-border-popup);
 }
 
 .event-popup--flip-x .event-popup__caret::before {
     transform: translate(2px, 2px);
-}
-
-/* popup above cell */
-.event-popup--flip-y .event-popup__caret {
-    top: auto;
-    bottom: -6px;
-    left: 50%;
-    transform: translateX(-50%) rotate(45deg);
-}
-
-.event-popup--flip-y .event-popup__caret::before {
-    transform: translate(0, 2px);
 }
 
 /* =====================================================

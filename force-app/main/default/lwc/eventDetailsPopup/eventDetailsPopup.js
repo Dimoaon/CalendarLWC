@@ -149,13 +149,14 @@ export default class EventDetailsPopup extends LightningElement {
         );
 
         this.caretLeft = placedLeft
-            ? popupWidth - CARET_SIZE / 2
+            ? popupWidth - CARET_SIZE / 2 - 1
             : -CARET_SIZE / 2;
 
         requestAnimationFrame(() => {
             const popup = this.template.querySelector('.event-popup');
             if (popup) {
                 popup.classList.toggle('event-popup--add', this.isAddMode);
+                popup.classList.toggle('event-popup--flip-x', !placedLeft);
             }
         });
 
