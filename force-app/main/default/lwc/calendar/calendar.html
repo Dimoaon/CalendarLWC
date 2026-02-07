@@ -5,57 +5,72 @@
         <c-calendar-header
             month-label={monthLabel}
             search-results={searchResults}
+
             is-quick-add-open={isAddQuickMode}
             quick-add-title={newEventTitle}
+
             onprevmonth={handlePrevMonth}
             onnextmonth={handleNextMonth}
             onmonthchange={handleMonthChange}
             onyearchange={handleYearChange}
+
             onaddevent={handleAddEventClick}
             onquickclose={closePopup}
             onquickinput={handleTitleInput}
-            onquicksave={saveNewEvent}
+            onquicksave={handleQuickSave}
+
             onsearch={handleSearchInput}
-            onsearchselect={handleSearchSelect}>
+            onsearchselect={handleSearchSelect}
+        >
         </c-calendar-header>
 
         <!-- ================= GRID ================= -->
         <c-calendar-grid
             cells={cells}
-            oncellclick={handleCellSelect}>
+            oncellclick={handleCellSelect}
+        >
         </c-calendar-grid>
 
-        <!-- ================= CELL-RELATED POPUPS ================= -->
-
+        <!-- ================= LIST ================= -->
         <template if:true={isListMode}>
             <c-event-details-popup
                 mode="list"
                 events={eventsForSelectedDate}
                 rect={activeCellRect}
+
                 onselectevent={handleEventSelect}
                 onaddevent={openAddFromList}
-                onclose={closePopup}>
+                onclose={closePopup}
+            >
             </c-event-details-popup>
         </template>
 
+        <!-- ================= DETAILS ================= -->
         <template if:true={isDetailsMode}>
             <c-event-details-popup
                 mode="details"
                 event={selectedEvent}
                 rect={activeCellRect}
+
                 onclose={closePopup}
-                ondeleteevent={handleDeleteEvent}>
+                ondeleteevent={handleDeleteEvent}
+            >
             </c-event-details-popup>
         </template>
 
+        <!-- ================= ADD FULL ================= -->
         <template if:true={isAddFullMode}>
             <c-event-details-popup
                 mode="addFull"
                 rect={activeCellRect}
-                new-event-title={newEventTitle}
+
                 ontitleinput={handleTitleInput}
-                onsave={saveNewEvent}
-                onclose={closePopup}>
+                onparticipantsinput={handleParticipantsInput}
+                ondescriptioninput={handleDescriptionInput}
+
+                onsave={handleFullSave}
+                onclose={closePopup}
+            >
             </c-event-details-popup>
         </template>
 

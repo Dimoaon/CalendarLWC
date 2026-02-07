@@ -37,7 +37,7 @@ export default class CalendarHeader extends LightningElement {
     }
 
     get hasSearchValue() {
-        return this.searchValue && this.searchValue.length > 0;
+        return !!this.searchValue;
     }
 
     get isMonthMode() {
@@ -114,15 +114,23 @@ export default class CalendarHeader extends LightningElement {
     }
 
     handleQuickInput(e) {
+        const value = e.target.value;
+
         this.dispatchEvent(
             new CustomEvent('quickinput', {
-                detail: e.target.value
+                detail: value
             })
         );
     }
 
     saveQuickEvent() {
-        this.dispatchEvent(new CustomEvent('quicksave'));
+        this.dispatchEvent(
+            new CustomEvent('quicksave', {
+                detail: {
+                    title: this.quickAddTitle
+                }
+            })
+        );
     }
 
     /* ================= SEARCH ================= */

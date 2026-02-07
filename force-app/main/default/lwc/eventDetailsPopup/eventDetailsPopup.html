@@ -12,9 +12,7 @@
             aria-hidden="true"
         ></div>
 
-        <!-- =================================================
-             HEADER
-             ================================================= -->
+        <!-- ================= HEADER ================= -->
         <div class="event-popup__header">
             <h3 class="event-popup__title">
                 <template if:true={isListMode}>
@@ -39,9 +37,7 @@
             </button>
         </div>
 
-        <!-- =================================================
-             LIST MODE
-             ================================================= -->
+        <!-- ================= LIST MODE ================= -->
         <template if:true={isListMode}>
             <div class="event-popup__content">
                 <template if:true={hasEvents}>
@@ -80,9 +76,7 @@
             </div>
         </template>
 
-        <!-- =================================================
-             DETAILS MODE
-             ================================================= -->
+        <!-- ================= DETAILS MODE ================= -->
         <template if:true={isDetailsMode}>
             <div class="event-popup__content">
                 <div class="event-details__date">
@@ -125,19 +119,19 @@
             </div>
         </template>
 
-        <!-- =================================================
-             ADD FULL MODE
-             ================================================= -->
+        <!-- ================= ADD FULL MODE ================= -->
         <template if:true={isAddMode}>
             <div class="event-popup__content">
+
                 <label class="event-form__label required">
                     Event name
                 </label>
                 <input
                     class="event-form__input"
-                    value={newEventTitle}
-                    oninput={handleInput}
+                    value={title}
+                    oninput={handleTitleInput}
                     placeholder="Event name"
+                    required
                 />
 
                 <label class="event-form__label required">
@@ -145,7 +139,10 @@
                 </label>
                 <input
                     class="event-form__input"
+                    value={participants}
+                    oninput={handleParticipantsInput}
                     placeholder="Participants"
+                    required
                 />
 
                 <label class="event-form__label">
@@ -153,8 +150,10 @@
                 </label>
                 <textarea
                     class="event-form__textarea"
+                    oninput={handleDescriptionInput}
                     placeholder="Some text"
                 ></textarea>
+
             </div>
 
             <div class="event-popup__footer event-popup__footer--split">

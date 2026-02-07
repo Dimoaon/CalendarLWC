@@ -1,5 +1,9 @@
 import { LightningElement, api } from 'lwc';
 
+/* =====================
+   CONSTANTS
+   ===================== */
+
 const OFFSET = 8;
 const POPUP_WIDTH_DEFAULT = 320;
 const POPUP_WIDTH_ADD = 370;
@@ -15,9 +19,16 @@ export default class EventDetailsPopup extends LightningElement {
 
     @api mode;            // 'list' | 'details' | 'addFull'
     @api events = [];
-    @api event = null;
-    @api newEventTitle = '';
-    @api rect;            // DOMRect of calendar-cell
+    @api event = null;    // используется ТОЛЬКО в details
+    @api rect;            // DOMRect calendar-cell
+
+    /* =====================
+       FORM STATE (ADD FULL)
+       ===================== */
+
+    title = '';
+    participants = '';
+    description = '';
 
     /* =====================
        INTERNAL STATE
@@ -27,7 +38,7 @@ export default class EventDetailsPopup extends LightningElement {
     caretLeft = 0;
 
     /* =====================
-       MODE
+       MODE HELPERS
        ===================== */
 
     get isListMode() {
@@ -61,82 +72,56 @@ export default class EventDetailsPopup extends LightningElement {
        ===================== */
 
     get caretStyle() {
-        return `
-            top: ${this.caretTop}px;
-            left: ${this.caretLeft}px;
-        `;
+        return `top:${this.caretTop}px;left:${this.caretLeft}px;`;
     }
 
     /* =====================
-       POSITIONING (SIDE-BASED)
+       POSITIONING (SIDE)
        ===================== */
 
     get popupStyle() {
         if (!this.rect) return '';
 
-        const viewportW = window.innerWidth;
         const viewportH = window.innerHeight;
-
-        const popupWidth = this.popupWidth;
         const popupHeight = POPUP_HEIGHT;
+        const popupWidth = this.popupWidth;
 
-        // центр ячейки по Y
         const anchorY = this.rect.top + this.rect.height / 2;
 
-        let top;
-        let left;
-        let placeLeft = true;
+        let top = anchorY - popupHeight / 2;
+        let left = this.rect.left - popupWidth - OFFSET;
+        let placedLeft = true;
 
-        /* ---------- HORIZONTAL ---------- */
-        // по умолчанию — слева от ячейки
-        left = this.rect.left - popupWidth - OFFSET;
-
-        // если не помещается — справа
         if (left < VIEWPORT_PADDING) {
             left = this.rect.right + OFFSET;
-            placeLeft = false;
+            placedLeft = false;
         }
 
-        /* ---------- VERTICAL ---------- */
-        top = anchorY - popupHeight / 2;
-
-        // ограничение сверху
         if (top < VIEWPORT_PADDING) {
             top = VIEWPORT_PADDING;
         }
 
-        // ограничение снизу
         if (top + popupHeight > viewportH - VIEWPORT_PADDING) {
             top = viewportH - popupHeight - VIEWPORT_PADDING;
         }
 
-        /* ---------- CARET POSITION ---------- */
-        this.caretTop = anchorY - top - CARET_SIZE / 2;
-
-        // не даём caret выйти за края попапа
         this.caretTop = Math.max(
             12,
-            Math.min(this.caretTop, popupHeight - 24)
+            Math.min(anchorY - top - CARET_SIZE / 2, popupHeight - 24)
         );
 
-        this.caretLeft = placeLeft
-            ? popupWidth - CARET_SIZE / 2   // caret справа
-            : -CARET_SIZE / 2;              // caret слева
+        this.caretLeft = placedLeft
+            ? popupWidth - CARET_SIZE / 2
+            : -CARET_SIZE / 2;
 
-        /* ---------- APPLY CLASSES ---------- */
         requestAnimationFrame(() => {
             const popup = this.template.querySelector('.event-popup');
-            if (!popup) return;
-
-            popup.classList.toggle('event-popup--add', this.isAddMode);
+            if (popup) {
+                popup.classList.toggle('event-popup--add', this.isAddMode);
+            }
         });
 
-        return `
-            position: fixed;
-            top: ${top}px;
-            left: ${left}px;
-            z-index: var(--z-overlay);
-        `;
+        return `position:fixed;top:${top}px;left:${left}px;z-index:var(--z-overlay);`;
     }
 
     /* =====================
@@ -145,6 +130,13 @@ export default class EventDetailsPopup extends LightningElement {
 
     close() {
         this.dispatchEvent(new CustomEvent('close'));
+        this.resetForm();
+    }
+
+    resetForm() {
+        this.title = '';
+        this.participants = '';
+        this.description = '';
     }
 
     /* =====================
@@ -157,9 +149,7 @@ export default class EventDetailsPopup extends LightningElement {
         if (!selected) return;
 
         this.dispatchEvent(
-            new CustomEvent('selectevent', {
-                detail: selected
-            })
+            new CustomEvent('selectevent', { detail: selected })
         );
     }
 
@@ -168,19 +158,42 @@ export default class EventDetailsPopup extends LightningElement {
     }
 
     /* =====================
-       ADD FULL MODE
+       ADD FULL – INPUTS
        ===================== */
 
-    handleInput(e) {
-        this.dispatchEvent(
-            new CustomEvent('titleinput', {
-                detail: e.target.value
-            })
-        );
+    handleTitleInput(e) {
+        this.title = e.target.value;
     }
 
+    handleParticipantsInput(e) {
+        this.participants = e.target.value;
+    }
+
+    handleDescriptionInput(e) {
+        this.description = e.target.value;
+    }
+
+    /* =====================
+       ADD FULL – SAVE
+       ===================== */
+
     save() {
-        this.dispatchEvent(new CustomEvent('save'));
+        if (!this.title.trim() || !this.participants.trim()) {
+            return;
+        }
+
+        const newEvent = {
+            id: Date.now(),
+            title: this.title.trim(),
+            participants: this.participants.trim(),
+            description: this.description.trim()
+        };
+
+        this.dispatchEvent(
+            new CustomEvent('save', { detail: newEvent })
+        );
+
+        this.resetForm();
     }
 
     /* =====================
@@ -191,9 +204,7 @@ export default class EventDetailsPopup extends LightningElement {
         if (!this.event) return;
 
         this.dispatchEvent(
-            new CustomEvent('deleteevent', {
-                detail: this.event.id
-            })
+            new CustomEvent('deleteevent', { detail: this.event.id })
         );
     }
 }
