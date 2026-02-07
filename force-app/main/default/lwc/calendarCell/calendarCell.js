@@ -1,9 +1,19 @@
 import { LightningElement, api } from 'lwc';
 
-const MAX_VISIBLE_EVENTS = 4;
+const DESKTOP_MAX_EVENTS = 4;
+const MOBILE_MAX_EVENTS = 2;
+const MOBILE_BREAKPOINT = 800;
 
 export default class CalendarCell extends LightningElement {
     @api cell;
+
+    /* =====================
+       RESPONSIVE HELPERS
+       ===================== */
+
+    get isMobile() {
+        return window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches;
+    }
 
     /* =====================
        COMPUTED
@@ -13,18 +23,37 @@ export default class CalendarCell extends LightningElement {
         return this.cell?.events || [];
     }
 
+    get maxVisibleEvents() {
+        return this.isMobile
+            ? MOBILE_MAX_EVENTS
+            : DESKTOP_MAX_EVENTS;
+    }
+
     get hasOverflow() {
-        return this.events.length > MAX_VISIBLE_EVENTS;
+        return this.events.length > this.maxVisibleEvents;
     }
 
     get visibleEvents() {
         return this.hasOverflow
-            ? this.events.slice(0, MAX_VISIBLE_EVENTS)
+            ? this.events.slice(0, this.maxVisibleEvents)
             : this.events;
     }
 
     get hiddenCount() {
-        return this.events.length - MAX_VISIBLE_EVENTS;
+        return this.events.length - this.maxVisibleEvents;
+    }
+
+    /* =====================
+       WEEKDAY LABEL
+       ===================== */
+
+    get weekdayLabel() {
+        if (!this.cell?.weekday) return '';
+
+        // Mobile: short (3 chars), Desktop/Tablet: full
+        return this.isMobile
+            ? this.cell.weekday.slice(0, 3) + ','
+            : this.cell.weekday;
     }
 
     /* =====================

@@ -90,3 +90,47 @@
   --z-popup: 200;
   --z-overlay: 300;
 }
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  :root {
+    /* Spacing */
+    --space-1: 3px;
+    --space-2: 6px;
+    --space-3: 10px;
+    --space-4: 14px;
+
+    /* Typography */
+    --font-size-sm: 11px;
+    --font-size-base: 13px;
+    --font-size-lg: 15px;
+
+    --line-height-base: 18px;
+
+    /* Radius */
+    --radius-control: 3px;
+    --radius-popup: 5px;
+    --radius-popup-lg: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    /* Spacing */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+
+    /* Typography */
+    --font-size-sm: 13px;
+    --font-size-base: 15px;
+    --font-size-lg: 17px;
+
+    --line-height-base: 22px;
+
+    /* Radius */
+    --radius-control: 6px;
+    --radius-popup: 12px;
+    --radius-popup-lg: 16px;
+  }
+}

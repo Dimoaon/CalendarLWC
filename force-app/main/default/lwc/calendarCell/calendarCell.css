@@ -21,8 +21,23 @@
     line-height: 1;
 }
 
-.calendar__cell:hover {
+/* Hover overlay (works for all states) */
+.calendar__cell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+
     background: var(--c-bg-hover-soft);
+    opacity: 0;
+
+    pointer-events: none;
+    z-index: 1;
+
+    transition: opacity 0.12s ease;
+}
+
+.calendar__cell:hover::before {
+    opacity: 1;
 }
 
 /* =====================================================
@@ -45,6 +60,13 @@
 
     font-size: var(--font-size-sm);
     color: var(--c-text-cell);
+
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
+.calendar__cell-weekday {
+    flex-shrink: 0;
 }
 
 /* =====================================================
@@ -116,7 +138,7 @@
     border: 2px solid var(--c-primary);
 
     pointer-events: none;
-    z-index: 1;
+    z-index: 3;
 }
 
 /* =====================================================
@@ -128,10 +150,6 @@
     font-weight: var(--font-weight-bold);
 }
 
-.calendar__cell--today:hover {
-    background: #e6e6e6;
-}
-
 .calendar__cell--today .calendar__cell-date,
 .calendar__cell--today .calendar__event,
 .calendar__cell--today .calendar__event-more {
@@ -140,4 +158,66 @@
 
 .calendar__cell--today.calendar__cell--active::after {
     background: transparent;
+}
+
+/* =====================================================
+   ADAPTIVE — CALENDAR CELL
+   ===================================================== */
+
+/* ---------- TABLET (701–1024) ---------- */
+@media (max-width: 1024px) and (min-width: 701px) {
+
+    .calendar__cell {
+        height: 90px;
+        padding: var(--space-1);
+    }
+
+    .calendar__cell-date {
+        font-size: 12px;
+    }
+
+    .calendar__cell-events {
+        margin-top: 4px;
+    }
+
+    .calendar__event,
+    .calendar__event-more {
+        font-size: 12px;
+        max-width: 100%;
+    }
+}
+
+
+/* ---------- MOBILE (≤ 700) ---------- */
+@media (max-width: 700px) {
+
+    .calendar__cell {
+        height: 68px;          /* чуть больше для визуального баланса */
+        padding: 6px;          /* ближе к header по плотности */
+    }
+
+    .calendar__cell-date {
+        font-size: 11px;
+        line-height: 1.2;
+    }
+
+    .calendar__cell-events {
+        margin-top: 2px;
+    }
+
+    .calendar__event,
+    .calendar__event-more {
+        font-size: 11px;
+        max-width: 100%;
+        margin-top: 0;
+    }
+
+    /* Touch feedback */
+    .calendar__cell:hover::before {
+        opacity: 0;            /* hover отключаем */
+    }
+
+    .calendar__cell:active::before {
+        opacity: 1;
+    }
 }
