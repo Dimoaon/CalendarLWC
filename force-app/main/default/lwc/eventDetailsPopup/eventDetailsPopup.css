@@ -183,6 +183,8 @@
 .event-details__value {
     font-size: var(--font-size-base);
     color: var(--c-text-popup);
+    word-break: break-word;
+    text-overflow: ellipsis;
 }
 
 /* =====================================================
@@ -322,4 +324,171 @@
 
 .btn--danger:hover {
     background: #b42318;
+}
+
+/* =====================================================
+   ADAPTIVE — EVENT POPUP (TABLET)
+   ===================================================== */
+
+@media (max-width: 1024px) and (min-width: 701px) {
+
+    .event-popup {
+        max-width: 90vw;
+    }
+
+    /* caret на планшете не нужен */
+    .event-popup__caret {
+        display: none;
+    }
+
+    /* header компактнее */
+    .event-popup__header {
+        padding: 8px 10px;
+    }
+
+    .event-popup__title {
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-medium);
+    }
+
+    .event-popup__close {
+        width: 22px;
+        height: 22px;
+    }
+
+    /* контент со скроллом */
+    .event-popup__content {
+        padding: 10px;
+        max-height: 260px;
+        overflow-y: auto;
+    }
+
+    /* list */
+    .event-list__item {
+        padding: 6px 8px;
+        font-size: var(--font-size-sm);
+    }
+
+    /* details */
+    .event-details__label {
+        font-size: 11px;
+    }
+
+    .event-details__value {
+        font-size: var(--font-size-sm);
+        word-break: break-word;
+    }
+
+    /* footer */
+    .event-popup__footer {
+        padding: 8px 10px;
+        gap: 6px;
+    }
+
+    .btn {
+        height: 26px;
+        padding: 0 10px;
+        font-size: var(--font-size-sm);
+    }
+}
+
+/* =====================================================
+   ADAPTIVE — EVENT POPUP (MOBILE)
+   ===================================================== */
+
+@media (max-width: 700px) {
+
+    .event-popup {
+        width: 80vw;
+        max-width: 80vw;
+        max-height: 70vh;
+
+        border-radius: 14px;
+
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* caret на мобиле не нужен */
+    .event-popup__caret {
+        display: none !important;
+    }
+
+    /* header */
+    .event-popup__header {
+        padding: 10px 12px;
+        flex-shrink: 0;
+    }
+
+    .event-popup__title {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .event-popup__close {
+        width: 28px;
+        height: 28px;
+    }
+
+    .event-popup__content {
+        padding: 12px;
+
+        flex: 1;
+        min-height: 0;
+
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* list */
+    .event-list__item {
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+
+    /* details */
+    .event-details__date {
+        font-size: 12px;
+        margin-bottom: 8px;
+    }
+
+    .event-details__label {
+        font-size: 12px;
+    }
+
+    .event-details__value {
+        font-size: 14px;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+    }
+
+    /* form */
+    .event-form__label {
+        font-size: 12px;
+    }
+
+    .event-form__input,
+    .event-form__textarea {
+        height: 36px;
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+
+    .event-form__textarea {
+        min-height: 96px;
+    }
+
+    /* footer всегда виден */
+    .event-popup__footer {
+        padding: 10px 12px;
+        flex-shrink: 0;
+        gap: 8px;
+    }
+
+    .btn {
+        height: 36px;
+        padding: 0 14px;
+        font-size: 14px;
+    }
 }

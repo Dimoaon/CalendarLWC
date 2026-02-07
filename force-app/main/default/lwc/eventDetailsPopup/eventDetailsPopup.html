@@ -5,7 +5,7 @@
         role="dialog"
         aria-modal="true"
     >
-        <!-- caret -->
+        <!-- ================= CARET ================= -->
         <div
             class="event-popup__caret"
             style={caretStyle}
@@ -59,7 +59,10 @@
             </div>
 
             <div class="event-popup__footer">
-                <button class="btn btn--primary" onclick={handleAdd}>
+                <button
+                    class="btn btn--primary"
+                    onclick={handleAdd}
+                >
                     Add event
                 </button>
             </div>
@@ -73,14 +76,18 @@
                 </div>
 
                 <div class="event-details__row">
-                    <span class="event-details__label">Participants:</span>
+                    <span class="event-details__label">
+                        Participants:
+                    </span>
                     <span class="event-details__value">
                         {event.participants}
                     </span>
                 </div>
 
                 <div class="event-details__row">
-                    <span class="event-details__label">Description:</span>
+                    <span class="event-details__label">
+                        Description:
+                    </span>
                     <span class="event-details__value">
                         {event.description}
                     </span>
@@ -88,10 +95,16 @@
             </div>
 
             <div class="event-popup__footer event-popup__footer--split">
-                <button class="btn btn--secondary" onclick={close}>
+                <button
+                    class="btn btn--secondary"
+                    onclick={close}
+                >
                     Cancel
                 </button>
-                <button class="btn btn--danger" onclick={handleDelete}>
+                <button
+                    class="btn btn--danger"
+                    onclick={handleDelete}
+                >
                     Delete event
                 </button>
             </div>
@@ -146,10 +159,16 @@
             </div>
 
             <div class="event-popup__footer event-popup__footer--split">
-                <button class="btn btn--secondary" onclick={close}>
+                <button
+                    class="btn btn--secondary"
+                    onclick={close}
+                >
                     Cancel
                 </button>
-                <button class="btn btn--primary" onclick={save}>
+                <button
+                    class="btn btn--primary"
+                    onclick={save}
+                >
                     Add event
                 </button>
             </div>

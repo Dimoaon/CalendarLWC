@@ -367,10 +367,17 @@
     top: 34px;
     width: 100%;
     padding: 4px 0;
+
     background: var(--c-bg-page);
     border: var(--border-width-default) solid #ccc;
     border-radius: var(--radius-popup);
     box-shadow: var(--shadow-popup-lg);
+
+    max-height: 240px;        /* ⬅ фиксированная высота */
+    overflow-y: auto;         /* ⬅ скролл ВСЕГДА */
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+
     z-index: var(--z-dropdown);
 }
 
@@ -539,26 +546,29 @@
     opacity: 1;
   }
 
-  /* Quick add → proper mobile bottom sheet */
+  /* Quick add — inline inside calendar */
   .quick-popup {
-    position: fixed;
+    position: absolute;          /* ⬅ обратно absolute */
     left: 0;
     right: 0;
-    bottom: 0;
+    top: calc(100% + 6px);       /* ⬅ появляется ПОД header/actions */
 
     width: 100%;
     max-width: none;
 
-    max-height: 70vh;
+    max-height: 240px;           /* ⬅ контролируем размер */
     overflow-y: auto;
 
-    padding: 16px;
-    gap: 12px;
+    padding: 12px;
+    gap: 10px;
 
-    border-radius: var(--radius-popup-lg) var(--radius-popup-lg) 0 0;
+    background: var(--c-bg-page);
+    border: 1px solid var(--c-border-grid);
 
-    z-index: var(--z-overlay);
-    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 var(--radius-popup) var(--radius-popup);
+
+    box-shadow: none;            /* ⬅ чтобы не выглядело как modal */
+    z-index: var(--z-popup);
   }
 
   .quick-popup__arrow {

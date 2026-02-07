@@ -5,11 +5,19 @@ import { LightningElement, api } from 'lwc';
    ===================== */
 
 const OFFSET = 8;
-const POPUP_WIDTH_DEFAULT = 320;
-const POPUP_WIDTH_ADD = 370;
-const POPUP_HEIGHT = 260;
 const CARET_SIZE = 12;
 const VIEWPORT_PADDING = 8;
+
+const POPUP_HEIGHT = 260;
+
+const DESKTOP_WIDTH_DEFAULT = 320;
+const DESKTOP_WIDTH_ADD = 370;
+const TABLET_WIDTH_DEFAULT = 260;
+const TABLET_WIDTH_ADD = 300;
+
+/* =====================
+   COMPONENT
+   ===================== */
 
 export default class EventDetailsPopup extends LightningElement {
 
@@ -19,11 +27,11 @@ export default class EventDetailsPopup extends LightningElement {
 
     @api mode;          // 'list' | 'details' | 'addFull'
     @api events = [];
-    @api event = null;  // используется только в details
-    @api rect;          // DOMRect календарной ячейки
+    @api event = null;
+    @api rect;          // DOMRect calendar cell
 
     /* =====================
-       FORM STATE (ADD FULL)
+       FORM STATE
        ===================== */
 
     title = '';
@@ -31,13 +39,13 @@ export default class EventDetailsPopup extends LightningElement {
     description = '';
 
     /* =====================
-       VALIDATION STATE
+       VALIDATION
        ===================== */
 
     showErrors = false;
 
     /* =====================
-       INTERNAL STATE
+       CARET STATE
        ===================== */
 
     caretTop = 0;
@@ -76,7 +84,7 @@ export default class EventDetailsPopup extends LightningElement {
     }
 
     /* =====================
-       CLASS GETTERS (LWC SAFE)
+       CLASS GETTERS
        ===================== */
 
     get titleInputClass() {
@@ -96,13 +104,28 @@ export default class EventDetailsPopup extends LightningElement {
     }
 
     /* =====================
-       SIZE
+       RESPONSIVE WIDTH
        ===================== */
 
     get popupWidth() {
+        const vw = window.innerWidth;
+
+        // MOBILE — width управляется CSS
+        if (vw <= 700) {
+            return null;
+        }
+
+        // TABLET
+        if (vw <= 1024) {
+            return this.isAddMode
+                ? TABLET_WIDTH_ADD
+                : TABLET_WIDTH_DEFAULT;
+        }
+
+        // DESKTOP
         return this.isAddMode
-            ? POPUP_WIDTH_ADD
-            : POPUP_WIDTH_DEFAULT;
+            ? DESKTOP_WIDTH_ADD
+            : DESKTOP_WIDTH_DEFAULT;
     }
 
     /* =====================
@@ -120,13 +143,49 @@ export default class EventDetailsPopup extends LightningElement {
     get popupStyle() {
         if (!this.rect) return '';
 
-        const viewportH = window.innerHeight;
-        const popupHeight = POPUP_HEIGHT;
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
         const popupWidth = this.popupWidth;
+
+        /* =====================
+           MOBILE — CENTER SCREEN
+           ===================== */
+
+        if (vw <= 700) {
+            this._applyClasses({ flipX: false });
+
+            return `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: var(--z-overlay);
+            `;
+        }
+
+        /* =====================
+           TABLET — CENTER CALENDAR
+           ===================== */
+
+        if (vw <= 1024) {
+            this._applyClasses({ flipX: false });
+
+            return `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: var(--z-overlay);
+            `;
+        }
+
+        /* =====================
+           DESKTOP — SIDE POPUP
+           ===================== */
 
         const anchorY = this.rect.top + this.rect.height / 2;
 
-        let top = anchorY - popupHeight / 2;
+        let top = anchorY - POPUP_HEIGHT / 2;
         let left = this.rect.left - popupWidth - OFFSET;
         let placedLeft = true;
 
@@ -135,30 +194,21 @@ export default class EventDetailsPopup extends LightningElement {
             placedLeft = false;
         }
 
-        if (top < VIEWPORT_PADDING) {
-            top = VIEWPORT_PADDING;
-        }
-
-        if (top + popupHeight > viewportH - VIEWPORT_PADDING) {
-            top = viewportH - popupHeight - VIEWPORT_PADDING;
-        }
+        top = Math.max(
+            VIEWPORT_PADDING,
+            Math.min(top, vh - POPUP_HEIGHT - VIEWPORT_PADDING)
+        );
 
         this.caretTop = Math.max(
             12,
-            Math.min(anchorY - top - CARET_SIZE / 2, popupHeight - 24)
+            Math.min(anchorY - top - CARET_SIZE / 2, POPUP_HEIGHT - 24)
         );
 
         this.caretLeft = placedLeft
             ? popupWidth - CARET_SIZE / 2 - 1
             : -CARET_SIZE / 2;
 
-        requestAnimationFrame(() => {
-            const popup = this.template.querySelector('.event-popup');
-            if (popup) {
-                popup.classList.toggle('event-popup--add', this.isAddMode);
-                popup.classList.toggle('event-popup--flip-x', !placedLeft);
-            }
-        });
+        this._applyClasses({ flipX: !placedLeft });
 
         return `
             position: fixed;
@@ -166,6 +216,20 @@ export default class EventDetailsPopup extends LightningElement {
             left: ${left}px;
             z-index: var(--z-overlay);
         `;
+    }
+
+    /* =====================
+       CLASS MANAGER
+       ===================== */
+
+    _applyClasses({ flipX }) {
+        requestAnimationFrame(() => {
+            const popup = this.template.querySelector('.event-popup');
+            if (!popup) return;
+
+            popup.classList.toggle('event-popup--add', this.isAddMode);
+            popup.classList.toggle('event-popup--flip-x', flipX);
+        });
     }
 
     /* =====================
@@ -203,7 +267,7 @@ export default class EventDetailsPopup extends LightningElement {
     }
 
     /* =====================
-       ADD FULL – INPUTS
+       ADD FULL — INPUTS
        ===================== */
 
     handleTitleInput(e) {
@@ -221,15 +285,13 @@ export default class EventDetailsPopup extends LightningElement {
     }
 
     /* =====================
-       ADD FULL – SAVE
+       ADD FULL — SAVE
        ===================== */
 
     save() {
         this.showErrors = true;
 
-        if (!this.title.trim() || !this.participants.trim()) {
-            return;
-        }
+        if (!this.title.trim() || !this.participants.trim()) return;
 
         const newEvent = {
             id: Date.now(),
