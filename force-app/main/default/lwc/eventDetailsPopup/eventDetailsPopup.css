@@ -10,8 +10,8 @@
     border-radius: var(--radius-popup-lg);
 
     border: var(--border-width-default) solid var(--c-border-popup);
-
     box-shadow: var(--shadow-popup-lg);
+
     z-index: var(--z-overlay);
 }
 
@@ -20,12 +20,11 @@
 }
 
 /* =====================================================
-   CARET (ARROW) – CORRECT SHADOW
+   CARET (ARROW)
    ===================================================== */
 
 .event-popup__caret {
     position: absolute;
-
     width: 12px;
     height: 12px;
 
@@ -35,7 +34,6 @@
     z-index: 2;
 }
 
-/* shadow layer */
 .event-popup__caret::before {
     content: '';
     position: absolute;
@@ -48,10 +46,7 @@
     opacity: 0.15;
 }
 
-/* ===============================
-   POPUP СПРАВА ОТ ЯЧЕЙКИ (default)
-   =============================== */
-
+/* popup right from cell (default) */
 .event-popup__caret {
     left: -6px;
 }
@@ -60,10 +55,7 @@
     transform: translate(-2px, 2px);
 }
 
-/* ===============================
-   POPUP СЛЕВА ОТ ЯЧЕЙКИ
-   =============================== */
-
+/* popup left from cell */
 .event-popup--flip-x .event-popup__caret {
     left: auto;
     right: -6px;
@@ -73,15 +65,11 @@
     transform: translate(2px, 2px);
 }
 
-/* ===============================
-   POPUP СВЕРХУ ЯЧЕЙКИ
-   =============================== */
-
+/* popup above cell */
 .event-popup--flip-y .event-popup__caret {
     top: auto;
     bottom: -6px;
     left: 50%;
-
     transform: translateX(-50%) rotate(45deg);
 }
 
@@ -130,7 +118,6 @@
     color: var(--c-text-placeholder);
 }
 
-/* ❌ hover background removed */
 .event-popup__close:hover {
     background: none;
 }
@@ -221,6 +208,7 @@
     color: #d92d20;
 }
 
+/* input / textarea */
 .event-form__input,
 .event-form__textarea {
     width: 100%;
@@ -234,6 +222,8 @@
 
     font-family: var(--font-family-base);
     font-size: var(--font-size-base);
+
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .event-form__textarea {
@@ -247,6 +237,25 @@
     outline: none;
     border-color: var(--c-primary);
     box-shadow: 0 0 0 1px var(--c-primary);
+}
+
+/* =====================================================
+   VALIDATION ERROR
+   ===================================================== */
+
+.event-form__input--error,
+.event-form__textarea--error {
+    border-color: #d92d20;
+    box-shadow: 0 0 0 1px rgba(217, 45, 32, 0.45);
+}
+
+.event-form__error {
+    margin-top: -6px;
+    margin-bottom: var(--space-3);
+
+    font-size: 12px;
+    line-height: 1.4;
+    color: #d92d20;
 }
 
 /* =====================================================

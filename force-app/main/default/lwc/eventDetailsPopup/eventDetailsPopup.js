@@ -17,10 +17,10 @@ export default class EventDetailsPopup extends LightningElement {
        API
        ===================== */
 
-    @api mode;            // 'list' | 'details' | 'addFull'
+    @api mode;          // 'list' | 'details' | 'addFull'
     @api events = [];
-    @api event = null;    // используется ТОЛЬКО в details
-    @api rect;            // DOMRect calendar-cell
+    @api event = null;  // используется только в details
+    @api rect;          // DOMRect календарной ячейки
 
     /* =====================
        FORM STATE (ADD FULL)
@@ -29,6 +29,12 @@ export default class EventDetailsPopup extends LightningElement {
     title = '';
     participants = '';
     description = '';
+
+    /* =====================
+       VALIDATION STATE
+       ===================== */
+
+    showErrors = false;
 
     /* =====================
        INTERNAL STATE
@@ -58,6 +64,38 @@ export default class EventDetailsPopup extends LightningElement {
     }
 
     /* =====================
+       VALIDATION HELPERS
+       ===================== */
+
+    get hasTitleError() {
+        return this.showErrors && !this.title.trim();
+    }
+
+    get hasParticipantsError() {
+        return this.showErrors && !this.participants.trim();
+    }
+
+    /* =====================
+       CLASS GETTERS (LWC SAFE)
+       ===================== */
+
+    get titleInputClass() {
+        return `event-form__input${this.hasTitleError ? ' is-error' : ''}`;
+    }
+
+    get participantsInputClass() {
+        return `event-form__input${this.hasParticipantsError ? ' is-error' : ''}`;
+    }
+
+    get titleLabelClass() {
+        return `event-form__label required${this.hasTitleError ? ' is-error' : ''}`;
+    }
+
+    get participantsLabelClass() {
+        return `event-form__label required${this.hasParticipantsError ? ' is-error' : ''}`;
+    }
+
+    /* =====================
        SIZE
        ===================== */
 
@@ -76,7 +114,7 @@ export default class EventDetailsPopup extends LightningElement {
     }
 
     /* =====================
-       POSITIONING (SIDE)
+       POSITIONING
        ===================== */
 
     get popupStyle() {
@@ -121,7 +159,12 @@ export default class EventDetailsPopup extends LightningElement {
             }
         });
 
-        return `position:fixed;top:${top}px;left:${left}px;z-index:var(--z-overlay);`;
+        return `
+            position: fixed;
+            top: ${top}px;
+            left: ${left}px;
+            z-index: var(--z-overlay);
+        `;
     }
 
     /* =====================
@@ -129,14 +172,15 @@ export default class EventDetailsPopup extends LightningElement {
        ===================== */
 
     close() {
-        this.dispatchEvent(new CustomEvent('close'));
         this.resetForm();
+        this.dispatchEvent(new CustomEvent('close'));
     }
 
     resetForm() {
         this.title = '';
         this.participants = '';
         this.description = '';
+        this.showErrors = false;
     }
 
     /* =====================
@@ -163,10 +207,12 @@ export default class EventDetailsPopup extends LightningElement {
 
     handleTitleInput(e) {
         this.title = e.target.value;
+        if (this.showErrors) this.showErrors = false;
     }
 
     handleParticipantsInput(e) {
         this.participants = e.target.value;
+        if (this.showErrors) this.showErrors = false;
     }
 
     handleDescriptionInput(e) {
@@ -178,6 +224,8 @@ export default class EventDetailsPopup extends LightningElement {
        ===================== */
 
     save() {
+        this.showErrors = true;
+
         if (!this.title.trim() || !this.participants.trim()) {
             return;
         }

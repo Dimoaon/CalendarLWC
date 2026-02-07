@@ -5,7 +5,7 @@
         role="dialog"
         aria-modal="true"
     >
-        <!-- caret / arrow -->
+        <!-- caret -->
         <div
             class="event-popup__caret"
             style={caretStyle}
@@ -15,17 +15,9 @@
         <!-- ================= HEADER ================= -->
         <div class="event-popup__header">
             <h3 class="event-popup__title">
-                <template if:true={isListMode}>
-                    Events
-                </template>
-
-                <template if:true={isDetailsMode}>
-                    {event.title}
-                </template>
-
-                <template if:true={isAddMode}>
-                    Add event
-                </template>
+                <template if:true={isListMode}>Events</template>
+                <template if:true={isDetailsMode}>{event.title}</template>
+                <template if:true={isAddMode}>Add event</template>
             </h3>
 
             <button
@@ -67,10 +59,7 @@
             </div>
 
             <div class="event-popup__footer">
-                <button
-                    class="btn btn--primary"
-                    onclick={handleAdd}
-                >
+                <button class="btn btn--primary" onclick={handleAdd}>
                     Add event
                 </button>
             </div>
@@ -84,18 +73,14 @@
                 </div>
 
                 <div class="event-details__row">
-                    <span class="event-details__label">
-                        Participants:
-                    </span>
+                    <span class="event-details__label">Participants:</span>
                     <span class="event-details__value">
                         {event.participants}
                     </span>
                 </div>
 
                 <div class="event-details__row">
-                    <span class="event-details__label">
-                        Description:
-                    </span>
+                    <span class="event-details__label">Description:</span>
                     <span class="event-details__value">
                         {event.description}
                     </span>
@@ -103,17 +88,10 @@
             </div>
 
             <div class="event-popup__footer event-popup__footer--split">
-                <button
-                    class="btn btn--secondary"
-                    onclick={close}
-                >
+                <button class="btn btn--secondary" onclick={close}>
                     Cancel
                 </button>
-
-                <button
-                    class="btn btn--danger"
-                    onclick={handleDelete}
-                >
+                <button class="btn btn--danger" onclick={handleDelete}>
                     Delete event
                 </button>
             </div>
@@ -123,28 +101,39 @@
         <template if:true={isAddMode}>
             <div class="event-popup__content">
 
-                <label class="event-form__label required">
+                <!-- EVENT NAME -->
+                <label class={titleLabelClass}>
                     Event name
                 </label>
                 <input
-                    class="event-form__input"
+                    class={titleInputClass}
                     value={title}
                     oninput={handleTitleInput}
                     placeholder="Event name"
-                    required
                 />
+                <template if:true={hasTitleError}>
+                    <div class="event-form__error">
+                        Event name is required
+                    </div>
+                </template>
 
-                <label class="event-form__label required">
+                <!-- PARTICIPANTS -->
+                <label class={participantsLabelClass}>
                     Participants
                 </label>
                 <input
-                    class="event-form__input"
+                    class={participantsInputClass}
                     value={participants}
                     oninput={handleParticipantsInput}
                     placeholder="Participants"
-                    required
                 />
+                <template if:true={hasParticipantsError}>
+                    <div class="event-form__error">
+                        Participants are required
+                    </div>
+                </template>
 
+                <!-- DESCRIPTION -->
                 <label class="event-form__label">
                     Description
                 </label>
@@ -152,25 +141,19 @@
                     class="event-form__textarea"
                     oninput={handleDescriptionInput}
                     placeholder="Some text"
-                ></textarea>
+                >{description}</textarea>
 
             </div>
 
             <div class="event-popup__footer event-popup__footer--split">
-                <button
-                    class="btn btn--secondary"
-                    onclick={close}
-                >
+                <button class="btn btn--secondary" onclick={close}>
                     Cancel
                 </button>
-
-                <button
-                    class="btn btn--primary"
-                    onclick={save}
-                >
+                <button class="btn btn--primary" onclick={save}>
                     Add event
                 </button>
             </div>
         </template>
+
     </div>
 </template>
