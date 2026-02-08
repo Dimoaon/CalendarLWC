@@ -111,7 +111,7 @@ export default class EventDetailsPopup extends LightningElement {
         const vw = window.innerWidth;
 
         // MOBILE
-        if (vw <= 700) {
+        if (vw <= 768) {
             return null;
         }
 
@@ -151,7 +151,7 @@ export default class EventDetailsPopup extends LightningElement {
            MOBILE — CENTER SCREEN
            ===================== */
 
-        if (vw <= 700) {
+        if (vw <= 768) {
             this._applyClasses({ flipX: false });
 
             return `

@@ -330,7 +330,7 @@
    ADAPTIVE — EVENT POPUP (TABLET)
    ===================================================== */
 
-@media (max-width: 1024px) and (min-width: 701px) {
+@media (max-width: 1024px) and (min-width: 769px) {
 
     .event-popup {
         max-width: 90vw;
@@ -390,7 +390,7 @@
    ADAPTIVE — EVENT POPUP (MOBILE)
    ===================================================== */
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
 
     .event-popup {
         width: 80vw;

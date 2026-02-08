@@ -62,11 +62,21 @@ export default class CalendarHeader extends LightningElement {
     /* ================= NAVIGATION ================= */
 
     handlePrev() {
-        this.dispatchEvent(new CustomEvent('prevmonth'));
+        this.dispatchEvent(
+            new CustomEvent('prevmonth', {
+                detail: {},
+                bubbles: true,
+                composed: true
+            })
+        );
     }
 
     handleNext() {
-        this.dispatchEvent(new CustomEvent('nextmonth'));
+        this.dispatchEvent(new CustomEvent('nextmonth', {
+            detail: {},
+            bubbles: true,
+            composed: true
+        }));
     }
 
     toggleDatePicker() {

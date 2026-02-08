@@ -2,7 +2,7 @@ import { LightningElement, api } from 'lwc';
 
 const DESKTOP_MAX_EVENTS = 4;
 const MOBILE_MAX_EVENTS = 2;
-const MOBILE_BREAKPOINT = 800;
+const MOBILE_BREAKPOINT = 768;
 
 export default class CalendarCell extends LightningElement {
     @api cell;
@@ -11,12 +11,8 @@ export default class CalendarCell extends LightningElement {
        RESPONSIVE HELPERS
        ===================== */
 
-    isMobile = false;
-
-    connectedCallback() {
-        this.isMobile = window.matchMedia(
-            `(max-width: ${MOBILE_BREAKPOINT}px)`
-        ).matches;
+    get isMobile() {
+        return window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches;
     }
 
     /* =====================

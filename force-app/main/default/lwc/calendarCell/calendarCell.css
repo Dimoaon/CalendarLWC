@@ -148,8 +148,8 @@
    ADAPTIVE — CALENDAR CELL
    ===================================================== */
 
-/* ---------- TABLET (701–1024) ---------- */
-@media (max-width: 1024px) and (min-width: 701px) {
+/* ---------- TABLET (769–1024) ---------- */
+@media (max-width: 1024px) and (min-width: 769px) {
 
     .cell {
         height: 90px;
@@ -172,8 +172,8 @@
 }
 
 
-/* ---------- MOBILE (≤ 700) ---------- */
-@media (max-width: 700px) {
+/* ---------- MOBILE (≤ 768) ---------- */
+@media (max-width: 768px) {
 
     .cell {
         height: 68px;

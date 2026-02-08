@@ -410,8 +410,8 @@
    ADAPTIVE — HEADER
    ===================================================== */
 
-/* ---------- TABLET (701–1024) ---------- */
-@media (max-width: 1024px) and (min-width: 701px) {
+/* ---------- TABLET (769–1024) ---------- */
+@media (max-width: 1024px) and (min-width: 769px) {
 
   .header {
     padding: var(--space-2) var(--space-3);
