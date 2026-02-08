@@ -4,6 +4,7 @@
         <!-- ================= HEADER ================= -->
         <c-calendar-header
             month-label={monthLabel}
+            current-year={currentYear}
             search-results={searchResults}
 
             is-quick-add-open={isAddQuickMode}
@@ -31,7 +32,7 @@
         >
         </c-calendar-grid>
 
-        <!-- ================= LIST ================= -->
+        <!-- ================= LIST MODE ================= -->
         <template if:true={isListMode}>
             <c-event-details-popup
                 mode="list"
@@ -45,7 +46,7 @@
             </c-event-details-popup>
         </template>
 
-        <!-- ================= DETAILS ================= -->
+        <!-- ================= DETAILS MODE ================= -->
         <template if:true={isDetailsMode}>
             <c-event-details-popup
                 mode="details"
@@ -58,7 +59,7 @@
             </c-event-details-popup>
         </template>
 
-        <!-- ================= ADD FULL ================= -->
+        <!-- ================= ADD FULL MODE ================= -->
         <template if:true={isAddFullMode}>
             <c-event-details-popup
                 mode="addFull"

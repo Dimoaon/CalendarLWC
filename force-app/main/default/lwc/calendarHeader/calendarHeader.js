@@ -10,11 +10,12 @@ export default class CalendarHeader extends LightningElement {
     @api isQuickAddOpen;
     @api quickAddTitle;
 
+    @api currentYear;
+
     /* ================= LOCAL STATE ================= */
 
     showDatePicker = false;
     pickerMode = 'month'; // 'month' | 'year'
-    baseYear = new Date().getFullYear();
 
     searchValue = '';
 
@@ -25,6 +26,10 @@ export default class CalendarHeader extends LightningElement {
 
     /* ================= GETTERS ================= */
 
+    get baseYear() {
+        return this.currentYear;
+    }
+    
     get years() {
         return Array.from(
             { length: 7 },
@@ -90,7 +95,6 @@ export default class CalendarHeader extends LightningElement {
 
     selectYear(e) {
         const year = Number(e.currentTarget.dataset.year);
-        this.baseYear = year;
 
         this.dispatchEvent(
             new CustomEvent('yearchange', {

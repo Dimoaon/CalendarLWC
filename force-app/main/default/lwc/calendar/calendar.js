@@ -45,6 +45,16 @@ export default class Calendar extends LightningElement {
     }
 
     /* =====================
+       HELPERS
+       ===================== */
+
+    resetPopupState() {
+        this.popupMode = null;
+        this.selectedEvent = null;
+        this.activeCellRect = null;
+    }
+
+    /* =====================
        STORAGE
        ===================== */
 
@@ -64,6 +74,10 @@ export default class Calendar extends LightningElement {
             month: 'long',
             year: 'numeric'
         });
+    }
+
+    get currentYear() {
+        return this.currentDate.getFullYear();
     }
 
     get cells() {
@@ -131,31 +145,35 @@ export default class Calendar extends LightningElement {
     }
 
     /* =====================
-       MONTH / YEAR NAV (FIX)
+       MONTH / YEAR NAV
        ===================== */
 
     handlePrevMonth() {
         const d = new Date(this.currentDate);
         d.setMonth(d.getMonth() - 1);
         this.currentDate = d;
+        this.resetPopupState();
     }
 
     handleNextMonth() {
         const d = new Date(this.currentDate);
         d.setMonth(d.getMonth() + 1);
         this.currentDate = d;
+        this.resetPopupState();
     }
 
     handleMonthChange(e) {
         const d = new Date(this.currentDate);
         d.setMonth(e.detail.month);
         this.currentDate = d;
+        this.resetPopupState();
     }
 
     handleYearChange(e) {
         const d = new Date(this.currentDate);
         d.setFullYear(e.detail.year);
         this.currentDate = d;
+        this.resetPopupState();
     }
 
     /* =====================
@@ -164,7 +182,7 @@ export default class Calendar extends LightningElement {
 
     handleAddEventClick() {
         if (!this.selectedDateKey) {
-            const d = new Date();
+            const d = new Date(this.currentDate);
             this.selectedDateKey =
                 `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
         }
@@ -233,9 +251,7 @@ export default class Calendar extends LightningElement {
     }
 
     closePopup() {
-        this.popupMode = null;
-        this.selectedEvent = null;
-        this.activeCellRect = null;
+        this.resetPopupState();
     }
 
     /* =====================
@@ -317,8 +333,8 @@ export default class Calendar extends LightningElement {
         this.currentDate = new Date(year, month - 1, 1);
         this.selectedDateKey = dateKey;
 
-        this.popupMode = null;
         this.searchResults = [];
+        this.resetPopupState();
     }
 
     /* =====================
