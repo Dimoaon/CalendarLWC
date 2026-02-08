@@ -1,34 +1,39 @@
 # Salesforce Calendar LWC
 
-Test task implementation for ForteNext.
+Custom calendar implementation built with Salesforce Lightning Web Components.
 
-URL
+## Demo
 
-## Current functionality
+https://dima2-dev-ed.develop.my.site.com/calendar  
+*(Salesforce dev org)*
+
+## Features
 
 ✔ Monthly calendar view  
-✔ Month navigation  
-✔ Event creation  
+✔ Month and year navigation  
+✔ Event creation (quick add & full form)  
 ✔ Event deletion  
-✔ Event persistence (localStorage)  
-✔ Event search  
-✔ Event popup  
+✔ Event persistence using localStorage  
+✔ Event search with live results  
+✔ Context-aware event popup  
 
-## Work in progress
+## Architecture highlights
 
-- Event editing
-- Event UI improvements
-- Popup positioning
-- Year searching
+- Component-based LWC architecture
+- Centralized design tokens (CSS variables)
+- Responsive layout (desktop / tablet / mobile)
+- Popup positioning based on viewport and anchor element
+- Clear separation of state and presentation
 
 ## Tech stack
 
-- Salesforce LWC
-- LocalStorage
+- Salesforce Lightning Web Components (LWC)
+- CSS design tokens
+- LocalStorage (client-side persistence)
 
-## Running project
+## Running the project
 
-Deploy to Salesforce org:
+Deploy to a Salesforce org:
 
 ```bash
 sf project deploy start
