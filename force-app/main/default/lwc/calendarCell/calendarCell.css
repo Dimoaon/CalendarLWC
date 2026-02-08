@@ -2,7 +2,7 @@
    CALENDAR CELL
    ===================================================== */
 
-.calendar__cell {
+.cell {
     position: relative;
 
     display: flex;
@@ -21,8 +21,7 @@
     line-height: 1;
 }
 
-/* ПРОСТОЙ hover — как раньше */
-.calendar__cell:hover {
+.cell:hover {
     background: var(--c-bg-hover-soft);
 }
 
@@ -30,7 +29,7 @@
    CONTENT LAYER
    ===================================================== */
 
-.calendar__cell > * {
+.cell > * {
     position: relative;
     z-index: 2;
 }
@@ -39,7 +38,7 @@
    DATE
    ===================================================== */
 
-.calendar__cell-date {
+.cell-date {
     display: flex;
     align-items: center;
     gap: var(--space-1);
@@ -52,12 +51,12 @@
    EVENTS
    ===================================================== */
 
-.calendar__cell-events {
+.cell-events {
     margin-top: var(--space-1);
     width: 100%;
 }
 
-.calendar__event {
+.event {
     width: 100%;
     max-width: 140px;
 
@@ -68,7 +67,7 @@
     line-height: 1.2;
 }
 
-.calendar__event-more {
+.event-more {
     margin-top: 2px;
 
     font-size: var(--font-size-sm);
@@ -80,12 +79,11 @@
    ACTIVE (EVENT DAY)
    ===================================================== */
 
-.calendar__cell--active {
+.cell--active {
     background: var(--c-bg-event);
 }
 
-/* active фон + бордер */
-.calendar__cell--active::after {
+.cell--active::after {
     content: '';
     position: absolute;
     inset: -1px;
@@ -97,13 +95,12 @@
     z-index: 0;
 }
 
-/* hover у active — ЧЕРЕЗ ::after */
-.calendar__cell--active:hover::after {
+.cell--active:hover::after {
     background: #b4f5d3;
 }
 
-.calendar__cell--active .calendar__event,
-.calendar__cell--active .calendar__event-more {
+.cell--active .event,
+.cell--active .event-more {
     color: var(--c-text-event);
 }
 
@@ -111,8 +108,7 @@
    SELECTED
    ===================================================== */
 
-/* selected = ТОЛЬКО рамка */
-.calendar__cell--selected::after {
+.cell--selected::after {
     content: '';
     position: absolute;
     inset: -1px;
@@ -127,23 +123,23 @@
    TODAY
    ===================================================== */
 
-.calendar__cell--today {
+.cell--today {
     background: var(--c-bg-today);
     font-weight: var(--font-weight-bold);
 }
 
-.calendar__cell--today:hover {
+.cell--today:hover {
     background: #e6e6e6;
 }
 
-.calendar__cell--today .calendar__cell-date,
-.calendar__cell--today .calendar__event,
-.calendar__cell--today .calendar__event-more {
+.cell--today .cell-date,
+.cell--today .event,
+.cell--today .event-more {
     color: var(--c-text-popup);
 }
 
 /* today + active */
-.calendar__cell--today.calendar__cell--active::after {
+.cell--today.cell--active::after {
     background: transparent;
 }
 
@@ -155,21 +151,21 @@
 /* ---------- TABLET (701–1024) ---------- */
 @media (max-width: 1024px) and (min-width: 701px) {
 
-    .calendar__cell {
+    .cell {
         height: 90px;
         padding: var(--space-1);
     }
 
-    .calendar__cell-date {
+    .cell-date {
         font-size: 12px;
     }
 
-    .calendar__cell-events {
+    .cell-events {
         margin-top: 4px;
     }
 
-    .calendar__event,
-    .calendar__event-more {
+    .event,
+    .event-more {
         font-size: 12px;
         max-width: 100%;
     }
@@ -179,33 +175,32 @@
 /* ---------- MOBILE (≤ 700) ---------- */
 @media (max-width: 700px) {
 
-    .calendar__cell {
-        height: 68px;          /* чуть больше для визуального баланса */
-        padding: 6px;          /* ближе к header по плотности */
+    .cell {
+        height: 68px;
+        padding: 6px;
     }
 
-    .calendar__cell-date {
+    .cell-date {
         font-size: 10px;
         line-height: 1.2;
     }
 
-    .calendar__cell-events {
+    .cell-events {
         margin-top: 2px;
     }
 
-    .calendar__event,
-    .calendar__event-more {
+    .event,
+    .event-more {
         font-size: 11px;
         max-width: 100%;
         margin-top: 0;
     }
 
-    /* Touch feedback */
-    .calendar__cell:hover::before {
-        opacity: 0;            /* hover отключаем */
+    .cell:hover::before {
+        opacity: 0;
     }
 
-    .calendar__cell:active::before {
+    .cell:active::before {
         opacity: 1;
     }
 }

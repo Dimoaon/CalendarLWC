@@ -2,7 +2,7 @@
    HEADER LAYOUT
    ===================================================== */
 
-.calendar__header {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -15,13 +15,13 @@
    NAVIGATION
    ===================================================== */
 
-.calendar__nav {
+.nav {
     display: flex;
     align-items: center;
     gap: 16px;
 }
 
-.calendar__nav-btn {
+.nav-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,19 +29,19 @@
     height: 26px;
     background: var(--c-bg-page);
     border-radius: var(--radius-control);
-    border: 2px solid #D9D9D9;
+    border: 2px solid var(--c-border-neutral);
     cursor: pointer;
 }
 
-.calendar__nav-btn--rotate {
+.nav-btn--rotate {
     transform: rotate(180deg);
 }
 
-.calendar__nav-btn:hover {
+.nav-btn:hover {
     background: var(--c-bg-hover-soft);
 }
 
-.calendar__month-switcher {
+.month-switcher {
     width: 7px;
     height: 12px;
     color: #001020;
@@ -51,11 +51,11 @@
    TITLE + DATE PICKER
    ===================================================== */
 
-.calendar__title-wrapper {
+.title-wrapper {
     position: relative;
 }
 
-.calendar__title {
+.title {
     font-family: var(--font-family-base);
     background: none;
     border: none;
@@ -66,13 +66,13 @@
     color: var(--c-primary);
 }
 
-.calendar__title:hover {
+.title:hover {
     color: #2563eb;
 }
 
 /* Date picker */
 
-.calendar__date-picker {
+.date-picker {
     position: absolute;
     top: calc(100% + 8px);
     left: 50%;
@@ -80,7 +80,7 @@
     min-width: 260px;
     padding: 16px;
     background: var(--c-bg-page);
-    border: var(--border-width-default) solid #CCCCCC;
+    border: var(--border-width-default) solid var(--c-border-muted);
     border-radius: var(--radius-popup-lg);
     box-shadow: var(--shadow-popup-md);
     z-index: var(--z-overlay);
@@ -88,14 +88,14 @@
 
 /* Picker header */
 
-.calendar__picker-header {
+.picker-header {
     display: flex;
     align-items: center;
     gap: 6px;
     margin-bottom: 12px;
 }
 
-.calendar__picker-year {
+.picker-year {
     font-family: var(--font-family-base);
     font-weight: 600;
     font-size: 16px;
@@ -103,7 +103,7 @@
     color: #737373;
 }
 
-.calendar__picker-arrow {
+.picker-arrow {
     width: 16px;
     height: 16px;
     background: none;
@@ -114,7 +114,7 @@
     transition: transform 0.2s ease;
 }
 
-.calendar__picker-arrow--up {
+.picker-arrow--up {
     transform: rotate(-90deg);
 }
 
@@ -175,7 +175,7 @@
    ACTIONS
    ===================================================== */
 
-.calendar__actions {
+.actions {
     position: relative;
     display: flex;
     align-items: center;
@@ -184,7 +184,7 @@
 
 /* Add button */
 
-.calendar__add {
+.add {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -197,11 +197,11 @@
     cursor: pointer;
 }
 
-.calendar__add:hover {
-    background: #0a36d6;
+.add:hover {
+    background: var(--c-primary-hover);
 }
 
-.calendar__text {
+.text {
     font-family: var(--font-family-base);
     font-size: var(--font-size-sm);
     font-weight: 500;
@@ -209,7 +209,7 @@
     color: #FFFFFF;
 }
 
-.calendar__plus-icon {
+.plus-icon {
     width: 13px;
     height: 13px;
     color: #FFFFFF;
@@ -229,7 +229,7 @@
     flex-direction: column;
     gap: 12px;
     background: var(--c-bg-page);
-    border: var(--border-width-default) solid #d0d0d0;
+    border: var(--border-width-default) solid var(--c-border-light);;
     border-radius: var(--radius-popup);
     box-shadow: var(--shadow-popup-lg);
     z-index: var(--z-popup);
@@ -242,8 +242,8 @@
     width: 12px;
     height: 12px;
     background: var(--c-bg-page);
-    border-left: var(--border-width-default) solid #d0d0d0;
-    border-top: var(--border-width-default) solid #d0d0d0;
+    border-left: var(--border-width-default) solid var(--c-border-light);;
+    border-top: var(--border-width-default) solid var(--c-border-light);;
     transform: rotate(45deg);
 }
 
@@ -276,7 +276,7 @@
 .quick-popup__input {
     padding: 8px;
     font-size: var(--font-size-base);
-    border: var(--border-width-default) solid #d0d0d0;
+    border: var(--border-width-default) solid var(--c-border-light);;
     border-radius: var(--radius-popup);
 }
 
@@ -295,14 +295,14 @@
 }
 
 .quick-popup__add:hover {
-    background: #0a36d6;
+    background: var(--c-primary-hover);
 }
 
 /* =====================================================
    SEARCH
    ===================================================== */
 
-.calendar__search-wrapper {
+.search-wrapper {
     position: relative;
     display: flex;
     align-items: center;
@@ -314,12 +314,12 @@
     border: var(--border-width-default) solid var(--c-border-input);
 }
 
-.calendar__search-wrapper:focus-within {
+.search-wrapper:focus-within {
     border-color: var(--c-primary);
     box-shadow: 0px 0px 3px #0070D2;
 }
 
-.calendar__search {
+.search {
     width: 100%;
     height: 100%;
     padding-left: 18px;
@@ -330,7 +330,7 @@
     outline: none;
 }
 
-.calendar__search-icon {
+.search-icon {
     position: absolute;
     top: 50%;
     left: 6px;
@@ -343,7 +343,7 @@
 
 /* SEARCH CLEAR */
 
-.calendar__search-clear {
+.search-clear {
     position: absolute;
     top: 50%;
     right: 6px;
@@ -362,46 +362,46 @@
 
 /* Search results */
 
-.calendar__search-results {
+.search-results {
     position: absolute;
     top: 34px;
     width: 100%;
     padding: 4px 0;
 
     background: var(--c-bg-page);
-    border: var(--border-width-default) solid #ccc;
+    border: var(--border-width-default) solid var(--c-border-muted);
     border-radius: var(--radius-popup);
     box-shadow: var(--shadow-popup-lg);
 
-    max-height: 240px;        /* ⬅ фиксированная высота */
-    overflow-y: auto;         /* ⬅ скролл ВСЕГДА */
+    max-height: 240px;
+    overflow-y: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
 
     z-index: var(--z-dropdown);
 }
 
-.calendar__search-item {
+.search-item {
     padding: 8px;
     cursor: pointer;
 }
 
-.calendar__search-item > div {
+.search-item > div {
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.calendar__search-item:not(:last-child) {
+.search-item:not(:last-child) {
     border-bottom: 1px solid #F5F5F5;
 }
 
-.calendar__search-item:hover {
+.search-item:hover {
     background: var(--c-bg-hover-accent);
 }
 
-.calendar__search-date {
+.search-date {
     font-size: 11px;
     color: #777;
 }
@@ -413,39 +413,39 @@
 /* ---------- TABLET (701–1024) ---------- */
 @media (max-width: 1024px) and (min-width: 701px) {
 
-  .calendar__header {
+  .header {
     padding: var(--space-2) var(--space-3);
   }
 
-  .calendar__nav {
+  .nav {
     gap: 12px;
   }
 
-  .calendar__nav-btn {
+  .nav-btn {
     width: 24px;
     height: 24px;
   }
 
-  .calendar__title {
+  .title {
     font-size: 24px;
   }
 
-  .calendar__actions {
+  .actions {
     gap: 8px;
   }
 
-  .calendar__add {
+  .add {
     height: 30px;
     padding: 0 8px;
   }
 
-  .calendar__search-wrapper {
+  .search-wrapper {
     width: 160px;
     height: 26px;
     padding: 4px 10px;
   }
 
-  .calendar__date-picker {
+  .date-picker {
     min-width: 240px;
     padding: 12px;
   }
@@ -462,7 +462,7 @@
 @media (max-width: 700px) {
 
   /* Header layout */
-  .calendar__header {
+  .header {
     flex-wrap: wrap;
     gap: 6px;
     padding: 6px;
@@ -470,66 +470,65 @@
   }
 
   /* Navigation row */
-  .calendar__nav {
+  .nav {
     width: 100%;
     justify-content: space-between;
   }
 
-  .calendar__nav-btn {
+  .nav-btn {
     width: 28px;
     height: 28px;
     border-radius: 4px;
   }
 
-  .calendar__title {
+  .title {
     font-size: 18px;
     line-height: 1;
   }
 
   /* Actions row */
-  .calendar__actions {
+  .actions {
     width: 100%;
     gap: 6px;
   }
 
-  .calendar__add {
+  .add {
     flex: 1;
     height: 36px;
     border-radius: 4px;
   }
 
-  .calendar__search-wrapper {
+  .search-wrapper {
     flex: 1;
     height: 36px;
     padding: 6px 10px;
   }
 
-  /* Compact search dropdown */
-  .calendar__search-results {
+  /* Search dropdown */
+  .search-results {
     top: 32px;
     padding: 2px 0;
     max-height: 200px;
     overflow-y: auto;
   }
 
-  .calendar__search-item {
+  .search-item {
     padding: 6px 8px;
   }
 
-  .calendar__search-date {
+  .search-date {
     font-size: 10px;
   }
 
-  /* Make controls feel like cells (active feedback) */
-  .calendar__nav-btn,
-  .calendar__add,
-  .calendar__search-wrapper {
+  .nav-btn,
+  .add,
+  .search-wrapper {
     position: relative;
   }
 
-  .calendar__nav-btn::before,
-  .calendar__add::before,
-  .calendar__search-wrapper::before {
+  .nav-btn::before,
+  .add::before,
+  .search-wrapper::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -540,23 +539,22 @@
     border-radius: inherit;
   }
 
-  .calendar__nav-btn:active::before,
-  .calendar__add:active::before,
-  .calendar__search-wrapper:focus-within::before {
+  .nav-btn:active::before,
+  .add:active::before,
+  .search-wrapper:focus-within::before {
     opacity: 1;
   }
 
-  /* Quick add — inline inside calendar */
   .quick-popup {
-    position: absolute;          /* ⬅ обратно absolute */
+    position: absolute;
     left: 0;
     right: 0;
-    top: calc(100% + 6px);       /* ⬅ появляется ПОД header/actions */
+    top: calc(100% + 6px);
 
     width: 100%;
     max-width: none;
 
-    max-height: 240px;           /* ⬅ контролируем размер */
+    max-height: 240px;
     overflow-y: auto;
 
     padding: 12px;
@@ -567,7 +565,7 @@
 
     border-radius: 0 0 var(--radius-popup) var(--radius-popup);
 
-    box-shadow: none;            /* ⬅ чтобы не выглядело как modal */
+    box-shadow: none;
     z-index: var(--z-popup);
   }
 

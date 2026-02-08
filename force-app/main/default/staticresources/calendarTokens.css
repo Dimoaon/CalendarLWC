@@ -14,14 +14,26 @@
   --c-border-input: #A1A1AA;
   --c-border-popup: #DDDBDA;
 
+  /* Neutral / UI borders */
+  --c-border-neutral: #D9D9D9;
+  --c-border-light: #d0d0d0;
+  --c-border-muted: #CCCCCC;
+
   /* Accent */
   --c-primary: #0C41FF;
+  --c-primary-hover: #0a36d6;
+
+  --c-danger: #D92D20;
+  --c-danger-hover: #b42318;
 
   /* Text */
   --c-text-cell: #717171;
   --c-text-popup: #333333;
   --c-text-placeholder: #A1A1AA;
   --c-text-event: #2C5A41;
+
+  --c-text-muted: #737373;
+  --c-text-strong: #001020;
 
   /* Hover / subtle backgrounds */
   --c-bg-hover-soft: #F3F4F6;
@@ -32,13 +44,8 @@
      Shadows
      ========================= */
 
-  /* Standard popups (date picker, list, details) */
-  --shadow-popup-md: 0px 2px 3px rgba(0, 0, 0, 0.2);
-
-  /* Light popups (dropdowns, year list) */
   --shadow-popup-sm: 0px 2px 3px rgba(0, 0, 0, 0.16);
-
-  /* Floating popups (quick add, search results) */
+  --shadow-popup-md: 0px 2px 3px rgba(0, 0, 0, 0.2);
   --shadow-popup-lg: 0px 4px 12px rgba(0, 0, 0, 0.15);
 
   /* =========================
@@ -47,17 +54,12 @@
 
   --border-width-default: 1px;
 
-  /* Control radius (buttons, inputs) */
   --radius-control: 3px;
-
-  /* Popup radius */
   --radius-popup: 6px;
-
-  /* Large container radius */
   --radius-popup-lg: 10px;
 
   /* =========================
-     Spacing (base only)
+     Spacing
      ========================= */
 
   --space-1: 4px;
@@ -66,7 +68,7 @@
   --space-4: 16px;
 
   /* =========================
-     Typography (system)
+     Typography
      ========================= */
 
   --font-family-base: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -91,44 +93,39 @@
   --z-overlay: 300;
 }
 
+/* =========================
+   TABLET
+   ========================= */
 @media (max-width: 1024px) and (min-width: 769px) {
   :root {
-    /* Spacing */
     --space-1: 3px;
     --space-2: 6px;
     --space-3: 10px;
     --space-4: 14px;
 
-    /* Typography */
     --font-size-sm: 11px;
     --font-size-base: 13px;
     --font-size-lg: 15px;
 
     --line-height-base: 18px;
 
-    /* Radius */
     --radius-control: 3px;
     --radius-popup: 5px;
     --radius-popup-lg: 8px;
   }
 }
 
+/* =========================
+   MOBILE
+   ========================= */
 @media (max-width: 768px) {
   :root {
-    /* Spacing */
-    --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 12px;
-    --space-4: 16px;
-
-    /* Typography */
     --font-size-sm: 13px;
     --font-size-base: 15px;
     --font-size-lg: 17px;
 
     --line-height-base: 22px;
 
-    /* Radius */
     --radius-control: 6px;
     --radius-popup: 12px;
     --radius-popup-lg: 16px;

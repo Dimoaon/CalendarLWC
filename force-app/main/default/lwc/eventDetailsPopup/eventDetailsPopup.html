@@ -32,30 +32,22 @@
         <!-- ================= LIST MODE ================= -->
         <template if:true={isListMode}>
             <div class="event-popup__content">
-                <template if:true={hasEvents}>
-                    <ul class="event-list" role="list">
-                        <template for:each={events} for:item="ev">
-                            <li
-                                key={ev.id}
-                                class="event-list__item"
-                                data-id={ev.id}
-                                onclick={handleSelect}
-                                role="button"
-                                tabindex="0"
-                            >
-                                <span class="event-list__title">
-                                    {ev.title}
-                                </span>
-                            </li>
-                        </template>
-                    </ul>
-                </template>
-
-                <template if:false={hasEvents}>
-                    <div class="event-popup__empty">
-                        No events for this day
-                    </div>
-                </template>
+                <ul class="event-list" role="list">
+                    <template for:each={events} for:item="ev">
+                        <li
+                            key={ev.id}
+                            class="event-list__item"
+                            data-id={ev.id}
+                            onclick={handleSelect}
+                            role="button"
+                            tabindex="0"
+                        >
+                            <span class="event-list__title">
+                                {ev.title}
+                            </span>
+                        </li>
+                    </template>
+                </ul>
             </div>
 
             <div class="event-popup__footer">

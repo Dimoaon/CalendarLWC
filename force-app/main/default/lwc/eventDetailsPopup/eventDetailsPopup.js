@@ -28,7 +28,7 @@ export default class EventDetailsPopup extends LightningElement {
     @api mode;          // 'list' | 'details' | 'addFull'
     @api events = [];
     @api event = null;
-    @api rect;          // DOMRect calendar cell
+    @api rect;
 
     /* =====================
        FORM STATE
@@ -110,7 +110,7 @@ export default class EventDetailsPopup extends LightningElement {
     get popupWidth() {
         const vw = window.innerWidth;
 
-        // MOBILE — width управляется CSS
+        // MOBILE
         if (vw <= 700) {
             return null;
         }

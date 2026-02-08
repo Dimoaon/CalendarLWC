@@ -55,8 +55,8 @@ export default class CalendarHeader extends LightningElement {
 
     get yearArrowClass() {
         return this.pickerMode === 'year'
-            ? 'calendar__picker-arrow calendar__picker-arrow--up'
-            : 'calendar__picker-arrow';
+            ? 'picker-arrow picker-arrow--up'
+            : 'picker-arrow';
     }
 
     /* ================= NAVIGATION ================= */

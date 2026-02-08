@@ -137,10 +137,10 @@ export default class Calendar extends LightningElement {
             ...cell,
             weekday: index < 7 ? this.weekdays[index] : null,
             cellClass:
-                'calendar__cell' +
-                (cell.hasEvents ? ' calendar__cell--active' : '') +
-                (cell.isSelected ? ' calendar__cell--selected' : '') +
-                (cell.isToday ? ' calendar__cell--today' : '')
+                'cell' +
+                (cell.hasEvents ? ' cell--active' : '') +
+                (cell.isSelected ? ' cell--selected' : '') +
+                (cell.isToday ? ' cell--today' : '')
         }));
     }
 

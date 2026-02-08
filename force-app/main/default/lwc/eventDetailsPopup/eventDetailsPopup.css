@@ -49,7 +49,6 @@
     opacity: 0.15;
 }
 
-/* popup right from cell (default) */
 .event-popup__caret {
     left: -6px;
 }
@@ -207,7 +206,6 @@
     color: #d92d20;
 }
 
-/* input / textarea */
 .event-form__input,
 .event-form__textarea {
     width: 100%;
@@ -244,12 +242,12 @@
 
 .event-form__input.is-error,
 .event-form__textarea.is-error {
-    border-color: #d92d20;
+    border-color: var(--c-danger);
     box-shadow: 0 0 0 1px rgba(217, 45, 32, 0.45);
 }
 
 .event-form__label.is-error {
-    color: #d92d20;
+    color: var(--c-danger);
 }
 
 
@@ -305,7 +303,7 @@
 }
 
 .btn--primary:hover {
-    background: #0a36d6;
+    background: var(--c-primary-hover);
 }
 
 .btn--secondary {
@@ -319,13 +317,13 @@
 }
 
 .btn--danger {
-    background: #d92d20;
+    background: var(--c-danger);
     color: #fff;
     border: none;
 }
 
 .btn--danger:hover {
-    background: #b42318;
+    background: var(--c-danger-hover);
 }
 
 /* =====================================================
@@ -338,12 +336,10 @@
         max-width: 90vw;
     }
 
-    /* caret на планшете не нужен */
     .event-popup__caret {
         display: none;
     }
 
-    /* header компактнее */
     .event-popup__header {
         padding: 8px 10px;
     }
@@ -358,20 +354,17 @@
         height: 22px;
     }
 
-    /* контент со скроллом */
     .event-popup__content {
         padding: 10px;
         max-height: 260px;
         overflow-y: auto;
     }
 
-    /* list */
     .event-list__item {
         padding: 6px 8px;
         font-size: var(--font-size-sm);
     }
 
-    /* details */
     .event-details__label {
         font-size: 11px;
     }
@@ -381,7 +374,6 @@
         word-break: break-word;
     }
 
-    /* footer */
     .event-popup__footer {
         padding: 8px 10px;
         gap: 6px;
@@ -411,12 +403,10 @@
         flex-direction: column;
     }
 
-    /* caret на мобиле не нужен */
     .event-popup__caret {
         display: none !important;
     }
 
-    /* header */
     .event-popup__header {
         padding: 10px 12px;
         flex-shrink: 0;
@@ -443,13 +433,11 @@
         -webkit-overflow-scrolling: touch;
     }
 
-    /* list */
     .event-list__item {
         padding: 8px 10px;
         font-size: 14px;
     }
 
-    /* details */
     .event-details__date {
         font-size: 12px;
         margin-bottom: 8px;
@@ -465,7 +453,6 @@
         overflow-wrap: anywhere;
     }
 
-    /* form */
     .event-form__label {
         font-size: 12px;
     }
@@ -481,7 +468,6 @@
         min-height: 96px;
     }
 
-    /* footer всегда виден */
     .event-popup__footer {
         padding: 10px 12px;
         flex-shrink: 0;

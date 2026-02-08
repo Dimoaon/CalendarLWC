@@ -11,8 +11,12 @@ export default class CalendarCell extends LightningElement {
        RESPONSIVE HELPERS
        ===================== */
 
-    get isMobile() {
-        return window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches;
+    isMobile = false;
+
+    connectedCallback() {
+        this.isMobile = window.matchMedia(
+            `(max-width: ${MOBILE_BREAKPOINT}px)`
+        ).matches;
     }
 
     /* =====================
@@ -50,10 +54,9 @@ export default class CalendarCell extends LightningElement {
     get weekdayLabel() {
         if (!this.cell?.weekday) return '';
 
-        // Mobile: short (3 chars), Desktop/Tablet: full
         return this.isMobile
-            ? this.cell.weekday.slice(0, 3) + ','
-            : this.cell.weekday;
+            ? this.cell.weekday.slice(0, 3)
+            : this.cell.weekday + ',';
     }
 
     /* =====================
