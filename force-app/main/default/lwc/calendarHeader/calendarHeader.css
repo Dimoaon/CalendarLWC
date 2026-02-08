@@ -458,8 +458,8 @@
 }
 
 
-/* ---------- MOBILE (≤ 700) ---------- */
-@media (max-width: 700px) {
+/* ---------- MOBILE (≤ 768px) ---------- */
+@media (max-width: 768px) {
 
   /* Header layout */
   .header {
@@ -540,8 +540,7 @@
   }
 
   .nav-btn:active::before,
-  .add:active::before,
-  .search-wrapper:focus-within::before {
+  .add:active::before {
     opacity: 1;
   }
 
